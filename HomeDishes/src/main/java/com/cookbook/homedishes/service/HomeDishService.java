@@ -26,6 +26,14 @@ public class HomeDishService {
         repo.insert(dish);
     }
 
+    public void delteDish(String name) throws IlligalDishException{
+        if(!isDishExists(name)){
+            throw new IlligalDishException("dish \"" + name + "\" not found");
+        }
+
+        repo.deleteById(name);
+    }
+
 
 
 
