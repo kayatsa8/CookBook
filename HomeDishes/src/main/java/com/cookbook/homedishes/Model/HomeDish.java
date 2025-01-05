@@ -1,14 +1,14 @@
-package com.cookbook.homedishes.Model;
+package com.cookbook.homedishes.model;
 
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.cookbook.homedishes.Model.enums.Difficulty;
-import com.cookbook.homedishes.Model.enums.DishType;
-import com.cookbook.homedishes.Model.enums.Flavors;
-import com.cookbook.homedishes.Model.enums.MealPart;
+import com.cookbook.homedishes.model.enums.Difficulty;
+import com.cookbook.homedishes.model.enums.DishType;
+import com.cookbook.homedishes.model.enums.Flavors;
+import com.cookbook.homedishes.model.enums.MealPart;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,6 @@ import lombok.Setter;
 @Setter
 public class HomeDish {
     @Id
-    private int id;
     private String name;
     private int diners;
     private String recipe;

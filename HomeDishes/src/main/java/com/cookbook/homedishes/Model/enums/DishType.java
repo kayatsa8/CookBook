@@ -1,4 +1,4 @@
-package com.cookbook.homedishes.Model.enums;
+package com.cookbook.homedishes.model.enums;
 
 public enum DishType {
     MEAT, MILK, PARVE, VEGETARIAN, VEGAN
