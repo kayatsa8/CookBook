@@ -23,14 +23,14 @@ public class HomeDishService {
 
         validateDishData(dish);
 
-
+        repo.insert(dish);
     }
 
 
 
 
     private boolean isDishExists(String name){
-        return repo.findById(name).isPresent();
+        return repo.existsById(name);
     }
 
     private void validateDishData(HomeDish dish) throws IlligalDishException{
