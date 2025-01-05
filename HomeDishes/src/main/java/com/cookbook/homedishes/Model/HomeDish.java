@@ -1,6 +1,6 @@
 package com.cookbook.homedishes.model;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,17 +21,17 @@ public class HomeDish {
     private String name;
     private int diners;
     private String recipe;
-    private Set<String> ingredients;
+    private List<String> ingredients;
     private int timeInMinutes;
     private DishType type;
-    private Set<Flavors> flavors;
+    private List<Flavors> flavors;
     private Difficulty difficulty;
     private MealPart mealPart;
     private int rating;
 
 
-    public HomeDish(String name, int diners, String recipe, Set<String> ingredients,
-                    int timeInMinutes, DishType type, Set<Flavors> flavors,
+    public HomeDish(String name, int diners, String recipe, List<String> ingredients,
+                    int timeInMinutes, DishType type, List<Flavors> flavors,
                     Difficulty difficulty, MealPart mealPart, int rating){
 
         this.name = name;
