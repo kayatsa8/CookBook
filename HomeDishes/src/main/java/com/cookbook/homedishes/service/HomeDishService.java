@@ -82,8 +82,28 @@ public class HomeDishService {
             throw new IlligalDishException("the dish name is empty");
         }
 
+        if(dish.getRecipe() == null){
+            throw new IlligalDishException("the recipe cannot be null");
+        }
+
+        if(dish.getIngredients() == null){
+            throw new IlligalDishException("the ingredients cannot be null");
+        }
+
+        if(dish.getTimeInMinutes() < 0){
+            throw new IlligalDishException("the time cannot be negative");
+        }
+
         if(dish.getType() == null){
             throw new IlligalDishException("the type of the dish must be specified");
+        }
+
+        if(dish.getFlavors() == null){
+            throw new IlligalDishException("the flavors list cannot be null");
+        }
+
+        if(dish.getRating() < 0){
+            throw new IlligalDishException("the rating cannot be negative");
         }
     }
 
