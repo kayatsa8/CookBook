@@ -1,6 +1,7 @@
 package com.cookbook.homedishes.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.cookbook.homedishes.exception.DishExistsException;
 import com.cookbook.homedishes.exception.IlligalDishException;
 import com.cookbook.homedishes.model.HomeDish;
+import com.cookbook.homedishes.model.dto.DTO;
 import com.cookbook.homedishes.repository.HomeDishRepository;
 
 @Service
@@ -52,7 +54,24 @@ public class HomeDishService {
         }
     }
 
+    public void updateDish(String name, DTO dto) throws IlligalDishException{
+        Optional<HomeDish> o = repo.findById(name);
 
+        if(o.isEmpty()){
+            throw new IlligalDishException("the dish \"" + name + "\" does not exist");
+        }
+
+        HomeDish dish = o.get();
+        dish.updateFromDTO(dto);
+
+        if(name.equals(dish.getName())){
+            repo.save(dish);
+        }
+        else{
+            repo.deleteById(name);
+            repo.insert(dish);
+        }
+    }
 
     private boolean isDishExists(String name){
         return repo.existsById(name);
