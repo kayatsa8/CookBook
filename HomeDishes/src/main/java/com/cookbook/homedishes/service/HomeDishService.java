@@ -1,5 +1,7 @@
 package com.cookbook.homedishes.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,9 @@ public class HomeDishService {
         repo.deleteById(name);
     }
 
+    public List<HomeDish> getAll(){
+        return repo.findAll();
+    }
 
 
 
