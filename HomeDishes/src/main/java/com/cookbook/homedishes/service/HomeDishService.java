@@ -1,6 +1,7 @@
 package com.cookbook.homedishes.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,17 @@ public class HomeDishService {
 
     public List<HomeDish> getAll(){
         return repo.findAll();
+    }
+
+    public HomeDish getDish(String name) throws IlligalDishException{
+        Optional<HomeDish> dish = repo.findById(name);
+
+        if(dish.isPresent()){
+            return dish.get();
+        }
+        else{
+            throw new IlligalDishException("no dish named \"" + name + "\"");
+        }
     }
 
 
