@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.cookbook.homedishes.model.dto.DTO;
 import com.cookbook.homedishes.model.enums.Difficulty;
 import com.cookbook.homedishes.model.enums.DishType;
 import com.cookbook.homedishes.model.enums.Flavors;
@@ -47,17 +46,17 @@ public class HomeDish {
         this.rating = rating;
     }
 
-    public void updateFromDTO(DTO dto){
-        name = dto.getName() == null ? name : dto.getName();
-        diners = dto.getDiners() == 0 ? diners : dto.getDiners();
-        recipe = dto.getRecipe() == null ? recipe : dto.getRecipe();
-        ingredients = dto.getIngredients() == null ? ingredients : dto.getIngredients();
-        timeInMinutes = dto.getTimeInMinutes() == 0 ? timeInMinutes : dto.getTimeInMinutes();
-        type = dto.getType() == null ? type : dto.getType();
-        flavors = dto.getFlavors() == null ? flavors : dto.getFlavors();
-        difficulty = dto.getDifficulty() == null ? difficulty : dto.getDifficulty();
-        mealPart = dto.getMealPart() == null ? mealPart : dto.getMealPart();
-        rating = dto.getRating() == 0 ? rating : dto.getRating();
+    public void updateFromDTO(HomeDish other){
+        name = other.getName() == null ? name : other.getName();
+        diners = other.getDiners() == 0 ? diners : other.getDiners();
+        recipe = other.getRecipe() == null ? recipe : other.getRecipe();
+        ingredients = other.getIngredients() == null ? ingredients : other.getIngredients();
+        timeInMinutes = other.getTimeInMinutes() == 0 ? timeInMinutes : other.getTimeInMinutes();
+        type = other.getType() == null ? type : other.getType();
+        flavors = other.getFlavors() == null ? flavors : other.getFlavors();
+        difficulty = other.getDifficulty() == null ? difficulty : other.getDifficulty();
+        mealPart = other.getMealPart() == null ? mealPart : other.getMealPart();
+        rating = other.getRating() == 0 ? rating : other.getRating();
     }
 
 
