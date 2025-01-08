@@ -59,6 +59,19 @@ public class HomeDishController {
         return service.getAll();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/dish/{dishName}")
+    public HomeDish getDish(@PathVariable String dishName){
+        try{
+            HomeDish dish = service.getDish(dishName);
+            return dish;
+        }
+        catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+
 
 
 }
