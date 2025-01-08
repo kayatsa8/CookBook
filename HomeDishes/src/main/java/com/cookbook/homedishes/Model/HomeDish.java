@@ -46,7 +46,7 @@ public class HomeDish {
         this.rating = rating;
     }
 
-    public void updateFromDTO(HomeDish other){
+    public void updateFromOther(HomeDish other){
         name = other.getName() == null ? name : other.getName();
         diners = other.getDiners() == 0 ? diners : other.getDiners();
         recipe = other.getRecipe() == null ? recipe : other.getRecipe();

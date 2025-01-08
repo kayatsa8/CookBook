@@ -60,7 +60,7 @@ public class HomeDishService {
         }
 
         HomeDish dish = o.get();
-        dish.updateFromDTO(updated);
+        dish.updateFromOther(updated);
 
         if(originalName.equals(dish.getName())){
             repo.save(dish);
