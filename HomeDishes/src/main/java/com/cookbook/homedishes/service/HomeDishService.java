@@ -31,7 +31,7 @@ public class HomeDishService {
 
     public void deleteDish(String name) throws IlligalDishException{
         if(!isDishExists(name)){
-            throw new IlligalDishException("dish \"" + name + "\" not found");
+            throw new IlligalDishException("dish \'" + name + "\' not found");
         }
 
         repo.deleteById(name);
@@ -48,7 +48,7 @@ public class HomeDishService {
             return dish.get();
         }
         else{
-            throw new IlligalDishException("no dish named \"" + name + "\"");
+            throw new IlligalDishException("no dish named \'" + name + "\'");
         }
     }
 
@@ -56,7 +56,7 @@ public class HomeDishService {
         Optional<HomeDish> o = repo.findById(originalName);
 
         if(o.isEmpty()){
-            throw new IlligalDishException("the dish \"" + originalName + "\" does not exist");
+            throw new IlligalDishException("the dish \'" + originalName + "\' does not exist");
         }
 
         HomeDish dish = o.get();
