@@ -10,41 +10,33 @@ import com.cookbook.homedishes.model.enums.DishType;
 import com.cookbook.homedishes.model.enums.Flavors;
 import com.cookbook.homedishes.model.enums.MealPart;
 
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Document("HomeDish")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class HomeDish {
     @Id
     private String name;
     private int diners;
+    @NotNull
     private String recipe;
+    @NotNull
     private List<String> ingredients;
     private int timeInMinutes;
     private DishType type;
+    @NotNull
     private List<Flavors> flavors;
     private Difficulty difficulty;
     private MealPart mealPart;
     private int rating;
 
-
-    public HomeDish(String name, int diners, String recipe, List<String> ingredients,
-                    int timeInMinutes, DishType type, List<Flavors> flavors,
-                    Difficulty difficulty, MealPart mealPart, int rating){
-
-        this.name = name;
-        this.diners = diners;
-        this.recipe = recipe;
-        this.ingredients = ingredients;
-        this.timeInMinutes = timeInMinutes;
-        this.type = type;
-        this.flavors = flavors;
-        this.difficulty = difficulty;
-        this.mealPart = mealPart;
-        this.rating = rating;
-    }
 
     public void updateFromOther(HomeDish other){
         name = other.getName() == null ? name : other.getName();
