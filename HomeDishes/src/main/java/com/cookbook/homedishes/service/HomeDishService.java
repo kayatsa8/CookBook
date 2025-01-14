@@ -100,7 +100,7 @@ public class HomeDishService {
             throw new IlligalDishException("the flavors list cannot be null");
         }
 
-        if(dish.getRating() < 0){
+        if(dish.getRating() < 0 || dish.getRating() > 5){
             throw new IlligalDishException("the rating cannot be negative");
         }
     }
