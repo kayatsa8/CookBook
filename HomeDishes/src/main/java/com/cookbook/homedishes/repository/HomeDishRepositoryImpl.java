@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.cookbook.homedishes.model.HomeDish;
@@ -24,12 +25,16 @@ public class HomeDishRepositoryImpl implements TemplateRepository{
         }
 
         if(filter.getDiners() != null){
+            Criteria criteria = Criteria.where("diners");
+
             if(filter.getDiners().getLow() != null){
-                query.addCriteria(Criteria.where("diners").gte(filter.getDiners().getLow()));
+                criteria = criteria.gte(filter.getDiners().getLow());
             }
             if(filter.getDiners().getHigh() != null){
-                query.addCriteria(Criteria.where("diners").lte(filter.getDiners().getHigh()));
+                criteria = criteria.lte(filter.getDiners().getHigh());
             }
+
+            query.addCriteria(criteria);
         }
 
         if(filter.getIngredients() != null){
@@ -37,12 +42,16 @@ public class HomeDishRepositoryImpl implements TemplateRepository{
         }
 
         if(filter.getTimeInMinutes() != null){
+            Criteria criteria = Criteria.where("timeInMinutes");
+
             if(filter.getTimeInMinutes().getLow() != null){
-                query.addCriteria(Criteria.where("timeInMinutes").gte(filter.getTimeInMinutes().getLow()));
+                criteria = criteria.gte(filter.getTimeInMinutes().getLow());
             }
             if(filter.getTimeInMinutes().getHigh() != null){
-                query.addCriteria(Criteria.where("timeInMinutes").lte(filter.getTimeInMinutes().getHigh()));
+                criteria = criteria.lte(filter.getTimeInMinutes().getHigh());
             }
+
+            query.addCriteria(criteria);
         }
 
         if(filter.getType() != null){
@@ -62,12 +71,16 @@ public class HomeDishRepositoryImpl implements TemplateRepository{
         }
 
         if(filter.getRating() != null){
+            Criteria criteria = Criteria.where("rating");
+
             if(filter.getRating().getLow() != null){
-                query.addCriteria(Criteria.where("rating").gte(filter.getRating().getLow()));
+                criteria = criteria.gte(filter.getRating().getLow());
             }
             if(filter.getRating().getHigh() != null){
-                query.addCriteria(Criteria.where("rating").lte(filter.getRating().getHigh()));
+                criteria = criteria.lte(filter.getRating().getHigh());
             }
+
+            query.addCriteria(criteria);
         }
 
 
