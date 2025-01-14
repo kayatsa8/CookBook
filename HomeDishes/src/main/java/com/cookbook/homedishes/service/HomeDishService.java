@@ -101,7 +101,7 @@ public class HomeDishService {
         }
 
         if(dish.getRating() < 0 || dish.getRating() > 5){
-            throw new IlligalDishException("the rating cannot be negative");
+            throw new IlligalDishException("the rating should be between 0 to 5");
         }
     }
 
