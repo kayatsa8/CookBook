@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.cookbook.homedishes.model.HomeDish;
 
 @Repository
-public interface HomeDishRepository extends MongoRepository<HomeDish, String>{
+public interface HomeDishRepository extends MongoRepository<HomeDish, String>, TemplateRepository{
     
 }
