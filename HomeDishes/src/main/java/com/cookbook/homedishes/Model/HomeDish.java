@@ -39,7 +39,7 @@ public class HomeDish {
 
 
     public void updateFromOther(HomeDish other){
-        name = other.getName() == null ? name : other.getName();
+        name = (other.getName() == null || other.getName().isEmpty()) ? name : other.getName();
         diners = other.getDiners() == 0 ? diners : other.getDiners();
         recipe = other.getRecipe() == null ? recipe : other.getRecipe();
         ingredients = other.getIngredients() == null ? ingredients : other.getIngredients();

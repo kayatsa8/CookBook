@@ -75,7 +75,6 @@ public class HomeDishController {
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/update/{originalName}")
     public void updateDish(@PathVariable String originalName, @RequestBody HomeDish updated){
-        // TODO: validate the data
         try{
             service.updateDish(originalName, updated);
         }

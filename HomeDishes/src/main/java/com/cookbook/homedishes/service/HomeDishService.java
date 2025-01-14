@@ -53,6 +53,10 @@ public class HomeDishService {
     }
 
     public void updateDish(String originalName, HomeDish updated) throws IlligalDishException{
+        if(updated.getRating() > 5 || updated.getRating() < 0){
+            throw new IlligalDishException("the rating of a dish must be between 0 to 5");
+        }
+
         Optional<HomeDish> o = repo.findById(originalName);
 
         if(o.isEmpty()){
