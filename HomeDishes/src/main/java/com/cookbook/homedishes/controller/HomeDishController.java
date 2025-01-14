@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
 import com.cookbook.homedishes.model.HomeDish;
+import com.cookbook.homedishes.model.filter.Filter;
 import com.cookbook.homedishes.service.HomeDishService;
 
 @RestController
@@ -83,7 +84,11 @@ public class HomeDishController {
         }
     }
 
-
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/filter")
+    public List<HomeDish> getByFilter(@RequestBody Filter filter){
+        return service.getByFilter(filter);
+    }
 
 
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cookbook.homedishes.exception.DishExistsException;
 import com.cookbook.homedishes.exception.IlligalDishException;
 import com.cookbook.homedishes.model.HomeDish;
+import com.cookbook.homedishes.model.filter.Filter;
 import com.cookbook.homedishes.repository.HomeDishRepository;
 
 @Service
@@ -109,5 +110,8 @@ public class HomeDishService {
         }
     }
 
+    public List<HomeDish> getByFilter(Filter filter){
+        return repo.getByFilter(filter);
+    }
     
 }
