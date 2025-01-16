@@ -90,6 +90,18 @@ public class HomeDishController {
         return service.getByFilter(filter);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/random")
+    public HomeDish getRandomDish(){
+        try{
+            HomeDish dish = service.getRandomDish();
+            return dish;
+        }
+        catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
+        }
+    }
+
 
 }
 
