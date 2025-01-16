@@ -102,6 +102,18 @@ public class HomeDishController {
         }
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/random/filter")
+    public HomeDish getRandomFilteredDish(@RequestBody Filter filter){
+        try{
+            HomeDish dish = service.getRandomWithFilter(filter);
+            return dish;
+        }
+        catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
+        }
+    }
+
 
 }
 

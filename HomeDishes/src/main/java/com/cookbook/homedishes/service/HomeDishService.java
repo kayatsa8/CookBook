@@ -118,6 +118,10 @@ public class HomeDishService {
     public HomeDish getRandomDish() throws Exception{
         List<HomeDish> dishNames = repo.getAllNames();
 
+        if(dishNames.isEmpty()){
+            throw new Exception("no dishes in system");
+        }
+
         Random rand = new Random();
         int index = rand.nextInt(dishNames.size());
 
@@ -130,5 +134,18 @@ public class HomeDishService {
         return oDish.get();
     }
 
+    public HomeDish getRandomWithFilter(Filter filter) throws Exception{
+        List<HomeDish> dishes = getByFilter(filter);
+
+        if(dishes.isEmpty()){
+            throw new Exception("no dishes in system");
+        }
+
+        Random rand = new Random();
+        int index = rand.nextInt(dishes.size());
+
+
+        return dishes.get(index);
+    }
 
 }
