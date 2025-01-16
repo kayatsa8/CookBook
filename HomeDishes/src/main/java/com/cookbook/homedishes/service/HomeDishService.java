@@ -2,6 +2,7 @@ package com.cookbook.homedishes.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -114,4 +115,20 @@ public class HomeDishService {
         return repo.getByFilter(filter);
     }
     
+    public HomeDish getRandomDish() throws Exception{
+        List<HomeDish> dishNames = repo.getAllNames();
+
+        Random rand = new Random();
+        int index = rand.nextInt(dishNames.size());
+
+        Optional<HomeDish> oDish = repo.findById(dishNames.get(index).getName());
+
+        if(oDish.isEmpty()){
+            throw new Exception("cannot get random dish");
+        }
+
+        return oDish.get();
+    }
+
+
 }
