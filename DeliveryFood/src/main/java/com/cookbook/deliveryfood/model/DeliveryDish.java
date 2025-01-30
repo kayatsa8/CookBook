@@ -1,5 +1,11 @@
 package com.cookbook.deliveryfood.model;
 
+import java.util.List;
+
+import com.cookbook.deliveryfood.model.enums.DishType;
+import com.cookbook.deliveryfood.model.enums.Flavors;
+import com.cookbook.deliveryfood.model.enums.MealPart;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +25,14 @@ public class DeliveryDish {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    private String name;
+    private Double price;
+    private String Restaurant;
+    private String deliveryPlatform;
+    private Integer rating;
+    private DishType type;
+    private List<Flavors> flavors;
+    private MealPart mealPart;
     
 
     
