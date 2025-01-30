@@ -1,5 +1,7 @@
 package com.cookbook.deliveryfood.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,14 @@ public class DeliveryDishService {
         return oDish.get();
     }
 
+    public List<DeliveryDish> getAllDishes(){
+        List<DeliveryDish> dishes = new ArrayList<>();
+        Iterable<DeliveryDish> iterable = repo.findAll();
+
+        iterable.forEach(dishes::add);
+
+        return dishes;
+    }
 
 
 
