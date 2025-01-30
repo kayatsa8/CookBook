@@ -44,6 +44,14 @@ public class DeliveryDishService {
         return dishes;
     }
 
+    public void deleteDish(int id) throws DishNotFoundException{
+        if(!repo.existsById(id)){
+            throw new DishNotFoundException();
+        }
+
+        repo.deleteById(id);
+    }
+
 
 
 
