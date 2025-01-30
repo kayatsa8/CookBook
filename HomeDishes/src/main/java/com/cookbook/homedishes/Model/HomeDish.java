@@ -23,6 +23,7 @@ import lombok.Setter;
 @Setter
 public class HomeDish {
     @Id
+    private String id;
     private String name;
     private int diners;
     @NotNull

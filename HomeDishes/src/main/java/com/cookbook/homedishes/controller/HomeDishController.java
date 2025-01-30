@@ -45,10 +45,10 @@ public class HomeDishController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/delete_dish/{dishName}")
-    public void deleteDish(@PathVariable String dishName){
+    @DeleteMapping("/delete_dish/{id}")
+    public void deleteDish(@PathVariable String id){
         try{
-            service.deleteDish(dishName);
+            service.deleteDish(id);
         }
         catch(Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -62,10 +62,10 @@ public class HomeDishController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/dish/{dishName}")
-    public HomeDish getDish(@PathVariable String dishName){
+    @GetMapping("/dish/{id}")
+    public HomeDish getDish(@PathVariable String id){
         try{
-            HomeDish dish = service.getDish(dishName);
+            HomeDish dish = service.getDish(id);
             return dish;
         }
         catch(Exception e){
@@ -74,10 +74,10 @@ public class HomeDishController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PatchMapping("/update/{originalName}")
-    public void updateDish(@PathVariable String originalName, @RequestBody HomeDish updated){
+    @PatchMapping("/update/{id}")
+    public void updateDish(@PathVariable String id, @RequestBody HomeDish updated){
         try{
-            service.updateDish(originalName, updated);
+            service.updateDish(id, updated);
         }
         catch(Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

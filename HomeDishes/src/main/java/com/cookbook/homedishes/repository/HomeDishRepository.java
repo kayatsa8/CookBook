@@ -11,7 +11,7 @@ import com.cookbook.homedishes.model.HomeDish;
 @Repository
 public interface HomeDishRepository extends MongoRepository<HomeDish, String>, TemplateRepository{
 
-    @Query(value="{}", fields="{'name' : 1}")
-    List<HomeDish> getAllNames();
+    @Query(value="{}", fields="{'id' : 1}")
+    List<HomeDish> getAllIds();
     
 }

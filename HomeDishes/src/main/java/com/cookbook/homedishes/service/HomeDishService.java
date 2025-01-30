@@ -31,54 +31,48 @@ public class HomeDishService {
         repo.insert(dish);
     }
 
-    public void deleteDish(String name) throws IlligalDishException{
-        if(!isDishExists(name)){
-            throw new IlligalDishException("dish \'" + name + "\' not found");
+    public void deleteDish(String id) throws IlligalDishException{
+        if(!isDishExists(id)){
+            throw new IlligalDishException("dish not found");
         }
 
-        repo.deleteById(name);
+        repo.deleteById(id);
     }
 
     public List<HomeDish> getAll(){
         return repo.findAll();
     }
 
-    public HomeDish getDish(String name) throws IlligalDishException{
-        Optional<HomeDish> dish = repo.findById(name);
+    public HomeDish getDish(String id) throws IlligalDishException{
+        Optional<HomeDish> dish = repo.findById(id);
 
         if(dish.isPresent()){
             return dish.get();
         }
         else{
-            throw new IlligalDishException("no dish named \'" + name + "\'");
+            throw new IlligalDishException("dish was not found");
         }
     }
 
-    public void updateDish(String originalName, HomeDish updated) throws IlligalDishException{
+    public void updateDish(String id, HomeDish updated) throws IlligalDishException{
         if(updated.getRating() > 5 || updated.getRating() < 0){
             throw new IlligalDishException("the rating of a dish must be between 0 to 5");
         }
 
-        Optional<HomeDish> o = repo.findById(originalName);
+        Optional<HomeDish> o = repo.findById(id);
 
         if(o.isEmpty()){
-            throw new IlligalDishException("the dish \'" + originalName + "\' does not exist");
+            throw new IlligalDishException("the dish does not exist");
         }
 
         HomeDish dish = o.get();
         dish.updateFromOther(updated);
 
-        if(originalName.equals(dish.getName())){
-            repo.save(dish);
-        }
-        else{
-            repo.deleteById(originalName);
-            repo.insert(dish);
-        }
+        repo.save(dish);
     }
 
-    private boolean isDishExists(String name){
-        return repo.existsById(name);
+    private boolean isDishExists(String id){
+        return repo.existsById(id);
     }
 
     private void validateDishData(HomeDish dish) throws IlligalDishException{
@@ -116,16 +110,16 @@ public class HomeDishService {
     }
     
     public HomeDish getRandomDish() throws Exception{
-        List<HomeDish> dishNames = repo.getAllNames();
+        List<HomeDish> ids = repo.getAllIds();
 
-        if(dishNames.isEmpty()){
+        if(ids.isEmpty()){
             throw new Exception("no dishes in system");
         }
 
         Random rand = new Random();
-        int index = rand.nextInt(dishNames.size());
+        int index = rand.nextInt(ids.size());
 
-        Optional<HomeDish> oDish = repo.findById(dishNames.get(index).getName());
+        Optional<HomeDish> oDish = repo.findById(ids.get(index).getId());
 
         if(oDish.isEmpty()){
             throw new Exception("cannot get random dish");
