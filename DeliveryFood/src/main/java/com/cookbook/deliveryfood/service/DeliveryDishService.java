@@ -52,6 +52,25 @@ public class DeliveryDishService {
         repo.deleteById(id);
     }
 
+    public void updateDish(DeliveryDish updated) throws InvalidDishException{
+        validateupdateDish(updated);
+
+        Optional<DeliveryDish> oDish = repo.findById(updated.getId());
+
+        if(oDish.isEmpty()){
+            throw new InvalidDishException("no such dish");
+        }
+
+        DeliveryDish dish = oDish.get();
+
+        dish.update(updated);
+
+        repo.save(dish);
+    }
+
+
+
+
 
 
 
@@ -90,5 +109,28 @@ public class DeliveryDishService {
 
     }
 
-    
+    private void validateupdateDish(DeliveryDish updated) throws InvalidDishException{
+        if(updated.getId() == null){
+            throw new InvalidDishException("no id");
+        }
+
+        if(updated.getName() != null && updated.getName().isBlank()){
+            throw new InvalidDishException("invalid name");
+        }
+
+        if(updated.getRestaurant() != null && updated.getRestaurant().isBlank()){
+            throw new InvalidDishException("invalid restaurant");
+        }
+
+        if(updated.getDeliveryPlatform() != null && updated.getDeliveryPlatform().isBlank()){
+            throw new InvalidDishException("invalid delivery platform");
+        }
+
+        if(updated.getRating() != null && (updated.getRating() < 0 || updated.getRating() > 5)){
+            throw new InvalidDishException("invalid rating");
+        }
+
+    }
+
+
 }
