@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +20,6 @@ import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
 import com.cookbook.deliveryfood.model.exception.InvalidDishException;
 import com.cookbook.deliveryfood.service.DeliveryDishService;
 
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("api/delivery_dish")
@@ -46,7 +47,7 @@ public class DeliveryDishController {
         }
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/get/{id}")
     public DeliveryDish getDish(@PathVariable int id){
         try{
@@ -63,6 +64,19 @@ public class DeliveryDishController {
     public List<DeliveryDish> getAllDishes(){
         return service.getAllDishes();
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/delete/{id}")
+    public void deleteDish(@PathVariable int id){
+        try{
+            service.deleteDish(id);
+        }
+        catch(DishNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+
 
 
 
