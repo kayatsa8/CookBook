@@ -76,7 +76,16 @@ public class DeliveryDishController {
         }
     }
 
-
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/update")
+    public void updateDish(@RequestBody DeliveryDish dish){
+        try{
+            service.updateDish(dish);
+        }
+        catch(InvalidDishException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
 
 
 
