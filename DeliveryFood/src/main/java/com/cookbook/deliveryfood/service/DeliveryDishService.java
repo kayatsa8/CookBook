@@ -75,6 +75,10 @@ public class DeliveryDishService {
 
 
     private void validateAddDish(DeliveryDish dish) throws InvalidDishException{
+        if(dish.getId() != null){
+            throw new InvalidDishException("the dish has an id");
+        }
+
         if(dish.getName() == null || dish.getName().isBlank()){
             throw new InvalidDishException("name not provided");
         }
