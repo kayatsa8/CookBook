@@ -1,5 +1,7 @@
 package com.cookbook.deliveryfood.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,6 +56,12 @@ public class DeliveryDishController {
         catch(DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/get/all")
+    public List<DeliveryDish> getAllDishes(){
+        return service.getAllDishes();
     }
 
 
