@@ -33,7 +33,7 @@ public class DeliveryDishController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/")
     public String home(){
-        return "hi home dishes";
+        return "hi delivery dishes";
     }
 
     @ResponseStatus(HttpStatus.CREATED)
