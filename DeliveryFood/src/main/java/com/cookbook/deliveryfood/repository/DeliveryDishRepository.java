@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.cookbook.deliveryfood.model.DeliveryDish;
 
 @Repository
-public interface DeliveryDishRepository extends CrudRepository<DeliveryDish, Integer>{
+public interface DeliveryDishRepository extends CrudRepository<DeliveryDish, Integer>, QueryRepository{
     
 }
