@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.cookbook.deliveryfood.model.DeliveryDish;
 import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
 import com.cookbook.deliveryfood.model.exception.InvalidDishException;
+import com.cookbook.deliveryfood.model.exception.NoDishesException;
 import com.cookbook.deliveryfood.model.filter.Filter;
 import com.cookbook.deliveryfood.service.DeliveryDishService;
 
@@ -101,7 +102,19 @@ public class DeliveryDishController {
             DeliveryDish dish = service.getRandomDish();
             return dish;
         }
-        catch(Exception e){
+        catch(NoDishesException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/get/random/filter")
+    public DeliveryDish getRandomFiltered(@RequestBody Filter filter){
+        try{
+            DeliveryDish dish = service.getRandomFiltered(filter);
+            return dish;
+        }
+        catch(NoDishesException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

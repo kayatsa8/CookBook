@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.cookbook.deliveryfood.model.DeliveryDish;
 import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
 import com.cookbook.deliveryfood.model.exception.InvalidDishException;
+import com.cookbook.deliveryfood.model.exception.NoDishesException;
 import com.cookbook.deliveryfood.model.filter.Filter;
 import com.cookbook.deliveryfood.repository.DeliveryDishRepository;
 
@@ -74,17 +75,30 @@ public class DeliveryDishService {
         return repo.getByFilter(filter);
     }
 
-    public DeliveryDish getRandomDish() throws Exception{
+    public DeliveryDish getRandomDish() throws NoDishesException {
         List<Integer> ids = repo.getIds();
 
         if(ids.size() == 0){
-            throw new Exception("no dishes in the system");
+            throw new NoDishesException();
         }
 
         Random r = new Random();
         int index = r.nextInt(ids.size());
 
         return repo.findById(ids.get(index)).get();
+    }
+
+    public DeliveryDish getRandomFiltered(Filter filter) throws NoDishesException {
+        List<DeliveryDish> dishes = getByFilter(filter);
+
+        if(dishes.isEmpty()){
+            throw new NoDishesException();
+        }
+
+        Random r = new Random();
+        int index = r.nextInt(dishes.size());
+
+        return dishes.get(index);
     }
 
 
