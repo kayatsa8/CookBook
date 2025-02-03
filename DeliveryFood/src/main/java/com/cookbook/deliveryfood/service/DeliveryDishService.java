@@ -3,6 +3,7 @@ package com.cookbook.deliveryfood.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,19 @@ public class DeliveryDishService {
 
     public List<DeliveryDish> getByFilter(Filter filter){
         return repo.getByFilter(filter);
+    }
+
+    public DeliveryDish getRandomDish() throws Exception{
+        List<Integer> ids = repo.getIds();
+
+        if(ids.size() == 0){
+            throw new Exception("no dishes in the system");
+        }
+
+        Random r = new Random();
+        int index = r.nextInt(ids.size());
+
+        return repo.findById(ids.get(index)).get();
     }
 
 

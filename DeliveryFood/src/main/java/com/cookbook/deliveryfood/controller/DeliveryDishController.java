@@ -94,7 +94,17 @@ public class DeliveryDishController {
         return service.getByFilter(filter);
     }
 
-
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/get/random")
+    public DeliveryDish getRandomDish(){
+        try{
+            DeliveryDish dish = service.getRandomDish();
+            return dish;
+        }
+        catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 
     
     
