@@ -75,10 +75,8 @@ public class DeliveryDishRepositoryImpl implements QueryRepository{
             predicates.add(cb.equal(dish.get("type"), filter.getType()));
         }
 
-        if(filter.getFlavors() != null){
-            for(Flavors flavor : filter.getFlavors()){
-                predicates.add(cb.isMember(flavor, dish.get("flavors")));
-            }
+        if(filter.getFlavors() != null && !filter.getFlavors().isEmpty()){
+            predicates.add(cb.isNotNull(dish.get("flavors")));
         }
 
         if(filter.getMealPart() != null){
@@ -88,7 +86,29 @@ public class DeliveryDishRepositoryImpl implements QueryRepository{
 
         query.where(predicates.toArray(new Predicate[0]));
 
-        return em.createQuery(query).getResultList();
+        List<DeliveryDish> dishes = em.createQuery(query).getResultList();
+        
+        if(filter.getFlavors() != null && !filter.getFlavors().isEmpty()){
+            dishes = filterFlavors(dishes, filter.getFlavors());
+        }
+
+        return dishes;
+    }
+
+    private List<DeliveryDish> filterFlavors(List<DeliveryDish> all, List<Flavors> filter){
+        List<DeliveryDish> dishes = new ArrayList<>();
+        List<Flavors> flavors;
+
+        for(DeliveryDish dish : all){
+            flavors = dish.getFlavors();
+            
+            if(flavors.containsAll(filter)){
+                dishes.add(dish);
+            }
+            
+        }
+
+        return dishes;
     }
     
 }

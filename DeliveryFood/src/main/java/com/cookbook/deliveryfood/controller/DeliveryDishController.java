@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.cookbook.deliveryfood.model.DeliveryDish;
 import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
 import com.cookbook.deliveryfood.model.exception.InvalidDishException;
+import com.cookbook.deliveryfood.model.filter.Filter;
 import com.cookbook.deliveryfood.service.DeliveryDishService;
 
 
@@ -87,7 +88,11 @@ public class DeliveryDishController {
         }
     }
 
-
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/get/filter")
+    public List<DeliveryDish> getByFilter(@RequestBody Filter filter){
+        return service.getByFilter(filter);
+    }
 
 
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.cookbook.deliveryfood.model.DeliveryDish;
 import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
 import com.cookbook.deliveryfood.model.exception.InvalidDishException;
+import com.cookbook.deliveryfood.model.filter.Filter;
 import com.cookbook.deliveryfood.repository.DeliveryDishRepository;
 
 @Service
@@ -68,7 +69,9 @@ public class DeliveryDishService {
         repo.save(dish);
     }
 
-
+    public List<DeliveryDish> getByFilter(Filter filter){
+        return repo.getByFilter(filter);
+    }
 
 
 
