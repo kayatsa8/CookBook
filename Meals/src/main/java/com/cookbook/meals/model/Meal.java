@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.cookbook.meals.enums.Difficulty;
-import com.cookbook.meals.enums.MealTime;
-import com.cookbook.meals.enums.MealType;
-import com.cookbook.meals.enums.SpecialOccation;
+import com.cookbook.meals.model.enums.Difficulty;
+import com.cookbook.meals.model.enums.MealTime;
+import com.cookbook.meals.model.enums.MealType;
+import com.cookbook.meals.model.enums.SpecialOccation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
