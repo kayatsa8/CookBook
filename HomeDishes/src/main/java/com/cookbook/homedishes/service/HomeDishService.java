@@ -71,7 +71,7 @@ public class HomeDishService {
         repo.save(dish);
     }
 
-    private boolean isDishExists(String id){
+    public boolean isDishExists(String id){
         return repo.existsById(id);
     }
 
