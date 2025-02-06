@@ -86,7 +86,7 @@ public class MealService {
 
     private List<String> validateHomeDishes(Meal meal){
         List<String> missing = webClient.post()
-                                        .uri("http://localhost:8080/home_meal/check_dish_list")
+                                        .uri("http://localhost:8080/internal/check_dish_list")
                                         .bodyValue(meal.getHomeDishesIds())
                                         .retrieve()
                                         .bodyToFlux(String.class)
@@ -101,7 +101,7 @@ public class MealService {
 
     private List<Integer> validateDeliveryDish(Meal meal){
         List<Integer> missing = webClient.post()
-                                        .uri("http://localhost:8081/delivery_meal/check_dish_list")
+                                        .uri("http://localhost:8081/internal/check_dish_list")
                                         .bodyValue(meal.getDeliveryDishesIds())
                                         .retrieve()
                                         .bodyToFlux(Integer.class)
