@@ -1,4 +1,4 @@
-package com.cookbook.homedishes.controller;
+package com.cookbook.deliveryfood.controller;
 
 import java.util.List;
 
@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cookbook.homedishes.service.InternalDishService;
+import com.cookbook.deliveryfood.service.InternalDishService;
 
 @RestController
 @RequestMapping("/internal")
 public class InternalDishController {
     private final InternalDishService service;
-    
+
+
     @Autowired
     public InternalDishController(InternalDishService service){
         this.service = service;
@@ -26,14 +27,17 @@ public class InternalDishController {
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/check_dish/{id}")
-    public boolean isDishExists(@PathVariable String id){
+    public boolean isDishExists(@PathVariable int id){
         return service.isDishExists(id);
     }
 
     @ResponseStatus(HttpStatus.FOUND)
     @PostMapping("/check_dish_list")
-    public List<String> dishesExists(@RequestBody List<String> ids){
-        return service.dishesExists(ids);
+    public List<Integer> dishesExist(@RequestBody List<Integer> ids){
+        return service.checkDishList(ids);
     }
 
+
+
+    
 }
