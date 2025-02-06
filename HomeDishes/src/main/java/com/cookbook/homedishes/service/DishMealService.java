@@ -1,5 +1,6 @@
 package com.cookbook.homedishes.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,16 @@ public class DishMealService {
         this.repo = repository;
     }
 
-    public boolean dishesExists(List<String> dishesIds){
+    public List<String> dishesExists(List<String> dishesIds){
+        List<String> notExists = new ArrayList<>();
+
         for(String id : dishesIds){
             if(!isDishExists(id)){
-                return false;
+                notExists.add(id);
             }
         }
 
-        return true;
+        return notExists;
     }
 
     public boolean isDishExists(String id){

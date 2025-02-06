@@ -31,7 +31,7 @@ public class DishMealController {
 
     @ResponseStatus(HttpStatus.FOUND)
     @PostMapping("/check_dish_list")
-    public boolean dishesExists(@RequestBody List<String> ids){
+    public List<String> dishesExists(@RequestBody List<String> ids){
         return service.dishesExists(ids);
     }
 
