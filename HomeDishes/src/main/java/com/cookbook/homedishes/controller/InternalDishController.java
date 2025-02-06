@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cookbook.homedishes.service.DishMealService;
+import com.cookbook.homedishes.service.InternalDishService;
 
 @RestController
 @RequestMapping("/home_meal")
-public class DishMealController {
-    private final DishMealService service;
+public class InternalDishController {
+    private final InternalDishService service;
     
     @Autowired
-    public DishMealController(DishMealService service){
+    public InternalDishController(InternalDishService service){
         this.service = service;
     }
 

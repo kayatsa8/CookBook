@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import com.cookbook.homedishes.repository.HomeDishRepository;
 
 @Service
-public class DishMealService {
+public class InternalDishService {
     private final HomeDishRepository repo;
 
 
     @Autowired
-    public DishMealService(HomeDishRepository repository){
+    public InternalDishService(HomeDishRepository repository){
         this.repo = repository;
     }
 
