@@ -114,12 +114,6 @@ public class HomeDishController {
         }
     }
 
-    @ResponseStatus(HttpStatus.FOUND)
-    @GetMapping("/find/{id}")
-    public boolean isDishExists(@PathVariable String id){
-        return service.isDishExists(id);
-    }
-
 
 }
 

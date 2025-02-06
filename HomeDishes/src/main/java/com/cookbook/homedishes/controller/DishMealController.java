@@ -23,13 +23,13 @@ public class DishMealController {
         this.service = service;
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/check_dish/{id}")
     public boolean isDishExists(String id){
         return service.isDishExists(id);
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.FOUND)
     @PostMapping("/check_dish_list")
     public boolean dishesExists(@RequestBody List<String> ids){
         return service.dishesExists(ids);
