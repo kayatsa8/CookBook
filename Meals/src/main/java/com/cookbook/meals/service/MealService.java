@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.cookbook.meals.model.Meal;
+import com.cookbook.meals.model.enums.Difficulty;
 import com.cookbook.meals.model.enums.MealType;
 import com.cookbook.meals.model.exceptions.IllegalMealException;
 import com.cookbook.meals.repository.MealRepository;
@@ -153,7 +154,17 @@ public class MealService {
     }
 
     private void putMealDifficulty(Meal meal){
+        Difficulty difficulty = webClient.post()
+                                         .uri("http://localhost:8080/internal/difficulty")
+                                         .bodyValue(meal.getHomeDishesIds())
+                                         .retrieve()
+                                         .bodyToMono(new ParameterizedTypeReference<Difficulty>() {})
+                                         .timeout(Duration.ofSeconds(10))
+                                         .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
+                                         .onErrorMap(e -> new Exception("error fetching home dishes", e))
+                                         .block();
 
+        meal.setDifficulty(difficulty);
     }
 
     private void putMealRating(Meal meal){
