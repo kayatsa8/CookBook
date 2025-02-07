@@ -17,4 +17,6 @@ public interface HomeDishRepository extends MongoRepository<HomeDish, String>, T
     @Query(value="{'id' : ?0}", fields="{'type' : 1}")
     HomeDish getType(String id);
     
+    @Query(value="{'id' : ?0}", fields="{'difficulty' : 1}")
+    HomeDish getDifficulty(String id);
 }
