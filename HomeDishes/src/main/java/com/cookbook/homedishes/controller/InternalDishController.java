@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.cookbook.homedishes.exception.IllegalDishException;
+import com.cookbook.homedishes.model.enums.Difficulty;
 import com.cookbook.homedishes.model.enums.DishType;
 import com.cookbook.homedishes.service.InternalDishService;
 
@@ -46,6 +47,18 @@ public class InternalDishController {
         try{
             Set<DishType> types = service.getDishesTypes(ids);
             return types;
+        }
+        catch(IllegalDishException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/difficulty")
+    public Difficulty getMaxDishDifficulty(@RequestBody List<String> ids){
+        try{
+            Difficulty max = service.getMaxDishDifficulty(ids);
+            return max;
         }
         catch(IllegalDishException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
