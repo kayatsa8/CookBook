@@ -77,6 +77,23 @@ public class InternalDishService {
         return max;
     }
 
+    public int getRatingSum(List<String> ids) throws IllegalDishException{
+        int sum = 0;
+        HomeDish dish;
+
+        for(String id : ids){
+            if(!repo.existsById(id)){
+                throw new IllegalDishException("a dish with id: '" + id + "' was not found");
+            }
+
+            dish = repo.getRating(id);
+
+            sum += dish.getRating();
+        }
+
+        return sum;
+    }
+
 
 
     
