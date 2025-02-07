@@ -35,4 +35,6 @@ public class Meal {
     private Integer rating; // the avg of the rating of all dishes, or defined by the user
     private List<SpecialOccation> specialOccations;
 
+    // TODO: move type, difficulty and rating to DetailedMeal, and their functions in service as well.
+
 }
