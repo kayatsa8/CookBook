@@ -44,7 +44,7 @@ public class InternalDishController {
     @PostMapping("/types")
     public Set<DishType> getDishesTypes(@RequestBody List<String> ids){
         try{
-            Set<DishType> types = service.getDisheTypes(ids);
+            Set<DishType> types = service.getDishesTypes(ids);
             return types;
         }
         catch(IllegalDishException e){

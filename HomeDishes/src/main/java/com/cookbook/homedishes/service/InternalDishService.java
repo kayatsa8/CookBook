@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.cookbook.homedishes.exception.IllegalDishException;
 import com.cookbook.homedishes.model.HomeDish;
+import com.cookbook.homedishes.model.enums.Difficulty;
 import com.cookbook.homedishes.model.enums.DishType;
 import com.cookbook.homedishes.repository.HomeDishRepository;
 
@@ -40,7 +41,7 @@ public class InternalDishService {
         return repo.existsById(id);
     }
 
-    public Set<DishType> getDisheTypes(List<String> ids) throws IllegalDishException{
+    public Set<DishType> getDishesTypes(List<String> ids) throws IllegalDishException{
         Set<DishType> types = new HashSet<>();
         HomeDish dish;
 
@@ -55,6 +56,25 @@ public class InternalDishService {
         }
 
         return types;
+    }
+
+    public Difficulty getMaxDishDifficulty(List<String> ids) throws IllegalDishException{
+        Difficulty max = Difficulty.EASY;
+        HomeDish dish;
+
+        for(String id : ids){
+            if(!repo.existsById(id)){
+                throw new IllegalDishException("a dish with id: '" + id + "' was not found");
+            }
+
+            dish = repo.getDifficulty(id);
+
+            if(dish.getDifficulty() != null && dish.getDifficulty().getValue() > max.getValue()){
+                max = dish.getDifficulty();
+            }
+        }
+
+        return max;
     }
 
 
