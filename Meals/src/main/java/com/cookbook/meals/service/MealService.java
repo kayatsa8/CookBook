@@ -36,6 +36,8 @@ public class MealService {
         validateAddMeal(meal);
 
         putTypesInMeal(meal);
+        putMealDifficulty(meal);
+        putMealRating(meal);
 
         repo.insert(meal);
     }
@@ -150,6 +152,13 @@ public class MealService {
         meal.setType(new ArrayList<>(types));
     }
 
+    private void putMealDifficulty(Meal meal){
+
+    }
+
+    private void putMealRating(Meal meal){
+
+    }
 
 
 
