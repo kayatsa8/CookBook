@@ -24,6 +24,7 @@ public class InternalDishService {
         for(String id : dishesIds){
             if(!isDishExists(id)){
                 notExists.add(id);
+                System.out.println(id);
             }
         }
 

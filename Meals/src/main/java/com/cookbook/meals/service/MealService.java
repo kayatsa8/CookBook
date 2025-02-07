@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -58,10 +59,12 @@ public class MealService {
         List<String> badHomeIds = validateHomeDishes(meal);
 
         if(!badHomeIds.isEmpty()){
+            System.out.println(badHomeIds.size());
             StringBuilder sb = new StringBuilder();
 
             for(String id : badHomeIds){
                 sb.append(id).append(", ");
+                System.out.println(id);
             }
 
             sb.delete(sb.length() - 2, sb.length());
@@ -89,11 +92,10 @@ public class MealService {
                                         .uri("http://localhost:8080/internal/check_dish_list")
                                         .bodyValue(meal.getHomeDishesIds())
                                         .retrieve()
-                                        .bodyToFlux(String.class)
+                                        .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                                         .timeout(Duration.ofSeconds(10))
                                         .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
                                         .onErrorMap(e -> new Exception("error fetching dishes", e))
-                                        .collectList()
                                         .block();
 
         return missing;
@@ -104,11 +106,10 @@ public class MealService {
                                         .uri("http://localhost:8081/internal/check_dish_list")
                                         .bodyValue(meal.getDeliveryDishesIds())
                                         .retrieve()
-                                        .bodyToFlux(Integer.class)
+                                        .bodyToMono(new ParameterizedTypeReference<List<Integer>>() {})
                                         .timeout(Duration.ofSeconds(10))
                                         .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
                                         .onErrorMap(e -> new Exception("error fetching dishes", e))
-                                        .collectList()
                                         .block();
 
         return missing;
