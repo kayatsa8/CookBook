@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cookbook.homedishes.exception.DishExistsException;
-import com.cookbook.homedishes.exception.IlligalDishException;
+import com.cookbook.homedishes.exception.IllegalDishException;
 import com.cookbook.homedishes.model.HomeDish;
 import com.cookbook.homedishes.model.filter.Filter;
 import com.cookbook.homedishes.repository.HomeDishRepository;
@@ -21,7 +21,7 @@ public class HomeDishService {
 
 
 
-    public void addDish(HomeDish dish) throws DishExistsException, IlligalDishException{        
+    public void addDish(HomeDish dish) throws DishExistsException, IllegalDishException{        
         if(isDishExists(dish.getName())){
             throw new DishExistsException(dish.getName());
         }
@@ -31,9 +31,9 @@ public class HomeDishService {
         repo.insert(dish);
     }
 
-    public void deleteDish(String id) throws IlligalDishException{
+    public void deleteDish(String id) throws IllegalDishException{
         if(!isDishExists(id)){
-            throw new IlligalDishException("dish not found");
+            throw new IllegalDishException("dish not found");
         }
 
         repo.deleteById(id);
@@ -43,26 +43,26 @@ public class HomeDishService {
         return repo.findAll();
     }
 
-    public HomeDish getDish(String id) throws IlligalDishException{
+    public HomeDish getDish(String id) throws IllegalDishException{
         Optional<HomeDish> dish = repo.findById(id);
 
         if(dish.isPresent()){
             return dish.get();
         }
         else{
-            throw new IlligalDishException("dish was not found");
+            throw new IllegalDishException("dish was not found");
         }
     }
 
-    public void updateDish(String id, HomeDish updated) throws IlligalDishException{
+    public void updateDish(String id, HomeDish updated) throws IllegalDishException{
         if(updated.getRating() > 5 || updated.getRating() < 0){
-            throw new IlligalDishException("the rating of a dish must be between 0 to 5");
+            throw new IllegalDishException("the rating of a dish must be between 0 to 5");
         }
 
         Optional<HomeDish> o = repo.findById(id);
 
         if(o.isEmpty()){
-            throw new IlligalDishException("the dish does not exist");
+            throw new IllegalDishException("the dish does not exist");
         }
 
         HomeDish dish = o.get();
@@ -75,33 +75,33 @@ public class HomeDishService {
         return repo.existsById(id);
     }
 
-    private void validateDishData(HomeDish dish) throws IlligalDishException{
+    private void validateDishData(HomeDish dish) throws IllegalDishException{
         if(dish.getName() == null || dish.getName().isEmpty()){
-            throw new IlligalDishException("the dish name is empty");
+            throw new IllegalDishException("the dish name is empty");
         }
 
         if(dish.getRecipe() == null){
-            throw new IlligalDishException("the recipe cannot be null");
+            throw new IllegalDishException("the recipe cannot be null");
         }
 
         if(dish.getIngredients() == null){
-            throw new IlligalDishException("the ingredients cannot be null");
+            throw new IllegalDishException("the ingredients cannot be null");
         }
 
         if(dish.getTimeInMinutes() < 0){
-            throw new IlligalDishException("the time cannot be negative");
+            throw new IllegalDishException("the time cannot be negative");
         }
 
         if(dish.getType() == null){
-            throw new IlligalDishException("the type of the dish must be specified");
+            throw new IllegalDishException("the type of the dish must be specified");
         }
 
         if(dish.getFlavors() == null){
-            throw new IlligalDishException("the flavors list cannot be null");
+            throw new IllegalDishException("the flavors list cannot be null");
         }
 
         if(dish.getRating() < 0 || dish.getRating() > 5){
-            throw new IlligalDishException("the rating should be between 0 to 5");
+            throw new IllegalDishException("the rating should be between 0 to 5");
         }
     }
 

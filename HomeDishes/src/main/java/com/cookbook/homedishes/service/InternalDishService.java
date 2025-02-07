@@ -1,11 +1,16 @@
 package com.cookbook.homedishes.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cookbook.homedishes.exception.IllegalDishException;
+import com.cookbook.homedishes.model.HomeDish;
+import com.cookbook.homedishes.model.enums.DishType;
 import com.cookbook.homedishes.repository.HomeDishRepository;
 
 @Service
@@ -35,6 +40,22 @@ public class InternalDishService {
         return repo.existsById(id);
     }
 
+    public Set<DishType> getDisheTypes(List<String> ids) throws IllegalDishException{
+        Set<DishType> types = new HashSet<>();
+        HomeDish dish;
+
+        for(String id : ids){
+            dish = repo.getType(id);
+
+            if(dish == null){
+                throw new IllegalDishException("a dish with id '" + id + "' was not found");
+            }
+
+            types.add(dish.getType());
+        }
+
+        return types;
+    }
 
 
 
