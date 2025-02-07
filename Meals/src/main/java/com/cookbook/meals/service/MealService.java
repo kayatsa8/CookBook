@@ -1,7 +1,9 @@
 package com.cookbook.meals.service;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.cookbook.meals.model.Meal;
+import com.cookbook.meals.model.enums.MealType;
 import com.cookbook.meals.model.exceptions.IllegalMealException;
 import com.cookbook.meals.repository.MealRepository;
 
@@ -31,6 +34,8 @@ public class MealService {
 
     public void addMeal(Meal meal) throws IllegalMealException{
         validateAddMeal(meal);
+
+        putTypesInMeal(meal);
 
         repo.insert(meal);
     }
@@ -95,7 +100,7 @@ public class MealService {
                                         .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                                         .timeout(Duration.ofSeconds(10))
                                         .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
-                                        .onErrorMap(e -> new Exception("error fetching dishes", e))
+                                        .onErrorMap(e -> new Exception("error fetching home dishes", e))
                                         .block();
 
         return missing;
@@ -109,13 +114,41 @@ public class MealService {
                                         .bodyToMono(new ParameterizedTypeReference<List<Integer>>() {})
                                         .timeout(Duration.ofSeconds(10))
                                         .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
-                                        .onErrorMap(e -> new Exception("error fetching dishes", e))
+                                        .onErrorMap(e -> new Exception("error fetching delivery dishes", e))
                                         .block();
 
         return missing;
     }
 
+    private void putTypesInMeal(Meal meal) throws IllegalMealException{
+        Set<MealType> types = webClient.post()
+                                       .uri("http://localhost:8080/internal/types")
+                                       .bodyValue(meal.getHomeDishesIds())
+                                       .retrieve()
+                                       .bodyToMono(new ParameterizedTypeReference<Set<MealType>>() {})
+                                       .timeout(Duration.ofSeconds(10))
+                                       .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
+                                       .onErrorMap(e -> new Exception("error fetching home dishes", e))
+                                       .block();
 
+        if(types.contains(MealType.MEAT) && types.contains(MealType.MILK)){
+            throw new IllegalMealException("meal cannot contain both meat and milk");
+        }
+
+        Set<MealType> temp = webClient.post()
+                                      .uri("http://localhost:8081/internal/types")
+                                      .bodyValue(meal.getDeliveryDishesIds())
+                                      .retrieve()
+                                      .bodyToMono(new ParameterizedTypeReference<Set<MealType>>() {})
+                                      .timeout(Duration.ofSeconds(10))
+                                      .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
+                                      .onErrorMap(e -> new Exception("error fetching delivery dishes", e))
+                                      .block();
+
+        types.addAll(temp);
+
+        meal.setType(new ArrayList<>(types));
+    }
 
 
 

@@ -1,6 +1,7 @@
 package com.cookbook.deliveryfood.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.cookbook.deliveryfood.model.enums.DishType;
+import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
 import com.cookbook.deliveryfood.service.InternalDishService;
 
 @RestController
@@ -35,6 +39,18 @@ public class InternalDishController {
     @PostMapping("/check_dish_list")
     public List<Integer> dishesExist(@RequestBody List<Integer> ids){
         return service.checkDishList(ids);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/types")
+    public Set<DishType> getDishTypes(@RequestBody List<Integer> ids){
+        try{
+            Set<DishType> types = service.getTypes(ids);
+            return types;
+        }
+        catch(DishNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
 
