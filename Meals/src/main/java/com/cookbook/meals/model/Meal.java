@@ -32,11 +32,6 @@ public class Meal {
     private List<MealTime> mealTime;
     private Integer userRating; // given by the user
     private List<SpecialOccation> specialOccations;
-
-    // TODO: move type, difficulty and rating to DetailedMeal, and their functions in service as well.
-    private List<MealType> type; // all types of components, K
-    private Difficulty difficulty; // the maximum difficulty of the home dishes
-    private Integer averageDishRating; // the avg of the rating of all dishes
     
 
     

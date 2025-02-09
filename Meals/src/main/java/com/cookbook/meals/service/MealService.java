@@ -89,6 +89,12 @@ public class MealService {
 
             throw new IllegalMealException("bad delivery dishes ids: " + sb.toString());
         }
+
+        Set<MealType> types = getMealTypes(meal);
+
+        if(types.contains(MealType.MEAT) && types.contains(MealType.MILK)){
+            throw new IllegalMealException("a meal cannot contain both milk and meat");
+        }
     }
 
     private List<String> validateHomeDishes(Meal meal){
@@ -119,7 +125,7 @@ public class MealService {
         return missing;
     }
 
-    private void putTypesInMeal(Meal meal) throws IllegalMealException{
+    private Set<MealType> getMealTypes(Meal meal){
         Set<MealType> types = webClient.post()
                                        .uri("http://localhost:8080/internal/types")
                                        .bodyValue(meal.getHomeDishesIds())
@@ -129,10 +135,6 @@ public class MealService {
                                        .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
                                        .onErrorMap(e -> new Exception("error fetching home dishes", e))
                                        .block();
-
-        if(types.contains(MealType.MEAT) && types.contains(MealType.MILK)){
-            throw new IllegalMealException("meal cannot contain both meat and milk");
-        }
 
         Set<MealType> temp = webClient.post()
                                       .uri("http://localhost:8081/internal/types")
@@ -146,7 +148,13 @@ public class MealService {
 
         types.addAll(temp);
 
-        meal.setType(new ArrayList<>(types));
+        return types;
+    }
+    
+    private void putTypesInMeal(Meal meal) throws IllegalMealException{
+        Set<MealType> types = getMealTypes(meal);
+
+        // meal.setType(new ArrayList<>(types));
     }
 
     private void putMealDifficulty(Meal meal){
@@ -160,7 +168,7 @@ public class MealService {
                                          .onErrorMap(e -> new Exception("error fetching home dishes", e))
                                          .block();
 
-        meal.setDifficulty(difficulty);
+        // meal.setDifficulty(difficulty);
     }
 
     private void putMealRating(Meal meal){
