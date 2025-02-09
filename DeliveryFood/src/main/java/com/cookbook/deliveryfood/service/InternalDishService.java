@@ -54,6 +54,22 @@ public class InternalDishService {
         return types;
     }
 
+    public int getRatingSum(List<Integer> ids) throws DishNotFoundException{
+        int sum = 0;
+        int rating;
+
+        for(int id : ids){
+            if(!repo.existsById(id)){
+                throw new DishNotFoundException();
+            }
+
+            rating = repo.getDishRating(id);
+            sum += rating;
+        }
+
+        return sum;
+    }
+
 
     
 }
