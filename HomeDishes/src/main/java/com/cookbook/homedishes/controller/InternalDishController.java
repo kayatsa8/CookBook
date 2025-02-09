@@ -90,4 +90,16 @@ public class InternalDishController {
         }
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/ingredients")
+    public List<String> getDishesIngredients(@RequestBody List<String> ids){
+        try{
+            List<String> ingredients = service.getDishesIngredients(ids);
+            return ingredients;
+        }
+        catch(DishNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
 }
