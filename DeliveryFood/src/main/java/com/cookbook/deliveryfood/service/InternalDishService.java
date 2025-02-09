@@ -78,6 +78,20 @@ public class InternalDishService {
         return sum;
     }
 
+    public List<String> getDishNames(List<Integer> ids) throws DishNotFoundException{
+        List<String> names = new ArrayList<>(ids.size());
+        String name;
 
+        for(int id : ids){
+            if(!repo.existsById(id)){
+                throw new DishNotFoundException();
+            }
+
+            name = repo.getDishName(id);
+            names.add(name);
+        }
+
+        return names;
+    }
     
 }
