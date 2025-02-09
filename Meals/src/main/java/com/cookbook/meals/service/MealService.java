@@ -3,6 +3,7 @@ package com.cookbook.meals.service;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,12 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.cookbook.meals.model.DetailedMeal;
 import com.cookbook.meals.model.Meal;
 import com.cookbook.meals.model.enums.Difficulty;
 import com.cookbook.meals.model.enums.MealType;
 import com.cookbook.meals.model.exceptions.IllegalMealException;
+import com.cookbook.meals.model.exceptions.MealNotFoundException;
 import com.cookbook.meals.repository.MealRepository;
 
 import io.netty.handler.timeout.TimeoutException;
@@ -38,6 +41,28 @@ public class MealService {
 
         repo.insert(meal);
     }
+
+    public DetailedMeal getMeal(String id) throws MealNotFoundException, IllegalMealException{
+        Optional<Meal> oMeal = repo.findById(id);
+
+        if(oMeal.isEmpty()){
+            throw new MealNotFoundException();
+        }
+
+        Meal meal = oMeal.get();
+        DetailedMeal detailed = new DetailedMeal(meal);
+
+        putTypesInMeal(detailed);
+        putMealDifficulty(detailed);
+        putMealRating(detailed);
+
+        return detailed;
+    }
+
+
+
+
+
 
     private void validateAddMeal(Meal meal) throws IllegalMealException{
         if(meal.getName() == null || meal.getName().isBlank()){
@@ -151,13 +176,13 @@ public class MealService {
         return types;
     }
     
-    private void putTypesInMeal(Meal meal) throws IllegalMealException{
+    private void putTypesInMeal(DetailedMeal meal) throws IllegalMealException{
         Set<MealType> types = getMealTypes(meal);
 
-        // meal.setType(new ArrayList<>(types));
+        meal.setType(new ArrayList<>(types));
     }
 
-    private void putMealDifficulty(Meal meal){
+    private void putMealDifficulty(DetailedMeal meal){
         Difficulty difficulty = webClient.post()
                                          .uri("http://localhost:8080/internal/difficulty")
                                          .bodyValue(meal.getHomeDishesIds())
@@ -168,10 +193,10 @@ public class MealService {
                                          .onErrorMap(e -> new Exception("error fetching home dishes", e))
                                          .block();
 
-        // meal.setDifficulty(difficulty);
+        meal.setDifficulty(difficulty);
     }
 
-    private void putMealRating(Meal meal){
+    private void putMealRating(DetailedMeal meal){
 
     }
 
