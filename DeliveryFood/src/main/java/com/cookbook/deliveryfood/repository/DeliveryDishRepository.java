@@ -17,5 +17,8 @@ public interface DeliveryDishRepository extends JpaRepository<DeliveryDish, Inte
 
     @Query("SELECT d.type FROM DeliveryDish d WHERE d.id = ?1")
     DishType getDishType(int id);
+
+    @Query("SELECT d.rating FROM DeliveryDish d WHERE d.id = ?1")
+    int getDishRating(int id);
     
 }
