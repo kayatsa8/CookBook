@@ -42,6 +42,10 @@ public class InternalDishService {
         Set<DishType> types = new HashSet<>();
         DishType type;
 
+        if(ids == null){
+            return types;
+        }
+
         for(int id : ids){
             if(!repo.existsById(id)){
                 throw new DishNotFoundException();
@@ -57,6 +61,10 @@ public class InternalDishService {
     public int getRatingSum(List<Integer> ids) throws DishNotFoundException{
         int sum = 0;
         int rating;
+
+        if(ids == null){
+            return 0;
+        }
 
         for(int id : ids){
             if(!repo.existsById(id)){
