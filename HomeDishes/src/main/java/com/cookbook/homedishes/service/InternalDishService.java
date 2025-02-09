@@ -123,6 +123,20 @@ public class InternalDishService {
         return names;
     }
 
+    public List<String> getDishesIngredients(List<String> ids) throws DishNotFoundException{
+        Set<String> ings = new HashSet<>();
+        HomeDish dish;
 
+        for(String id : ids){
+            if(!repo.existsById(id)){
+                throw new DishNotFoundException();
+            }
+
+            dish = repo.getDishIngredients(id);
+            ings.addAll(dish.getIngredients());
+        }
+
+        return new ArrayList<>(ings);
+    }
     
 }
