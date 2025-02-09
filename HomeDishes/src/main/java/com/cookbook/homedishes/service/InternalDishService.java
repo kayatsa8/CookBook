@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cookbook.homedishes.exception.DishNotFoundException;
 import com.cookbook.homedishes.exception.IllegalDishException;
 import com.cookbook.homedishes.model.HomeDish;
 import com.cookbook.homedishes.model.enums.Difficulty;
@@ -106,6 +107,21 @@ public class InternalDishService {
         return sum;
     }
 
+    public List<String> getDishNames(List<String> ids) throws DishNotFoundException{
+        List<String> names = new ArrayList<>();
+        HomeDish dish;
+
+        for(String id : ids){
+            if(!repo.existsById(id)){
+                throw new DishNotFoundException();
+            }
+
+            dish = repo.getDishName(id);
+            names.add(dish.getName());
+        }
+
+        return names;
+    }
 
 
     
