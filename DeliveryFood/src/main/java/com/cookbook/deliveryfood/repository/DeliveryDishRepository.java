@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cookbook.deliveryfood.model.DeliveryDish;
 import com.cookbook.deliveryfood.model.enums.DishType;
+import com.cookbook.deliveryfood.model.enums.Flavors;
 
 @Repository
 public interface DeliveryDishRepository extends JpaRepository<DeliveryDish, Integer>, QueryRepository{
@@ -23,5 +24,8 @@ public interface DeliveryDishRepository extends JpaRepository<DeliveryDish, Inte
 
     @Query("SELECT d.name FROM DeliveryDish d WHERE d.id = ?1")
     String getDishName(int id);
+
+    @Query("SELECT d.flavors FROM DeliveryDish d WHERE d.id = ?1")
+    List<Flavors> getDishFlavors(int id);
     
 }
