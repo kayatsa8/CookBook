@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cookbook.deliveryfood.model.enums.DishType;
+import com.cookbook.deliveryfood.model.enums.Flavors;
 import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
 import com.cookbook.deliveryfood.repository.DeliveryDishRepository;
 
@@ -94,4 +95,21 @@ public class InternalDishService {
         return names;
     }
     
+    public List<Flavors> getDishesFlavors(List<Integer> ids) throws DishNotFoundException{
+        Set<Flavors> flavors = new HashSet<>();
+        List<Flavors> f;
+
+        for(int id : ids){
+            if(!repo.existsById(id)){
+                throw new DishNotFoundException();
+            }
+
+            f = repo.getDishFlavors(id);
+            flavors.addAll(f);
+        }
+
+        return new ArrayList<>(flavors);
+    }
+
+
 }
