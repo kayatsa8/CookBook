@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.cookbook.homedishes.exception.DishNotFoundException;
 import com.cookbook.homedishes.exception.IllegalDishException;
 import com.cookbook.homedishes.model.enums.Difficulty;
 import com.cookbook.homedishes.model.enums.DishType;
@@ -73,6 +74,18 @@ public class InternalDishController {
             return sum;
         }
         catch(IllegalDishException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/names")
+    public List<String> getDishNames(@RequestBody List<String> ids){
+        try{
+            List<String> names = service.getDishNames(ids);
+            return names;
+        }
+        catch(DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
