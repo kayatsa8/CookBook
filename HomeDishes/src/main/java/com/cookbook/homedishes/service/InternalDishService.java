@@ -45,6 +45,10 @@ public class InternalDishService {
         Set<DishType> types = new HashSet<>();
         HomeDish dish;
 
+        if(ids == null){
+            return types;
+        }
+
         for(String id : ids){
             dish = repo.getType(id);
 
@@ -61,6 +65,10 @@ public class InternalDishService {
     public Difficulty getMaxDishDifficulty(List<String> ids) throws IllegalDishException{
         Difficulty max = Difficulty.EASY;
         HomeDish dish;
+
+        if(ids == null){
+            return max;
+        }
 
         for(String id : ids){
             if(!repo.existsById(id)){
@@ -80,6 +88,10 @@ public class InternalDishService {
     public int getRatingSum(List<String> ids) throws IllegalDishException{
         int sum = 0;
         HomeDish dish;
+
+        if(ids == null){
+            return 0;
+        }
 
         for(String id : ids){
             if(!repo.existsById(id)){
