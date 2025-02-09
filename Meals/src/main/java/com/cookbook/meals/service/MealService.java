@@ -36,10 +36,6 @@ public class MealService {
     public void addMeal(Meal meal) throws IllegalMealException{
         validateAddMeal(meal);
 
-        putTypesInMeal(meal);
-        putMealDifficulty(meal);
-        putMealRating(meal);
-
         repo.insert(meal);
     }
 
@@ -56,7 +52,7 @@ public class MealService {
             throw new IllegalMealException("'meal time' cannot be null");
         }
 
-        if(meal.getRating() != null && (meal.getRating() < 0 || meal.getRating() > 5)){
+        if(meal.getUserRating() != null && (meal.getUserRating() < 0 || meal.getUserRating() > 5)){
             throw new IllegalMealException("rating must be between 0 to 5");
         }
 
