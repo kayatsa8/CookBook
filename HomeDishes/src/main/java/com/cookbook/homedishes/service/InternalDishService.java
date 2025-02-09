@@ -13,6 +13,7 @@ import com.cookbook.homedishes.exception.IllegalDishException;
 import com.cookbook.homedishes.model.HomeDish;
 import com.cookbook.homedishes.model.enums.Difficulty;
 import com.cookbook.homedishes.model.enums.DishType;
+import com.cookbook.homedishes.model.enums.Flavors;
 import com.cookbook.homedishes.repository.HomeDishRepository;
 
 @Service
@@ -139,4 +140,19 @@ public class InternalDishService {
         return new ArrayList<>(ings);
     }
     
+    public List<Flavors> getDishesFlavors(List<String> ids) throws DishNotFoundException{
+        Set<Flavors> flavors = new HashSet<>();
+        HomeDish dish;
+
+        for(String id : ids){
+            if(!repo.existsById(id)){
+                throw new DishNotFoundException();
+            }
+
+            dish = repo.getDishFlavors(id);
+            flavors.addAll(dish.getFlavors());
+        }
+
+        return new ArrayList<>(flavors);
+    }
 }

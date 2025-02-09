@@ -18,6 +18,7 @@ import com.cookbook.homedishes.exception.DishNotFoundException;
 import com.cookbook.homedishes.exception.IllegalDishException;
 import com.cookbook.homedishes.model.enums.Difficulty;
 import com.cookbook.homedishes.model.enums.DishType;
+import com.cookbook.homedishes.model.enums.Flavors;
 import com.cookbook.homedishes.service.InternalDishService;
 
 @RestController
@@ -96,6 +97,18 @@ public class InternalDishController {
         try{
             List<String> ingredients = service.getDishesIngredients(ids);
             return ingredients;
+        }
+        catch(DishNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/flavors")
+    public List<Flavors> getDishesFlavors(@RequestBody List<String> ids){
+        try{
+            List<Flavors> flavors = service.getDishesFlavors(ids);
+            return flavors;
         }
         catch(DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
