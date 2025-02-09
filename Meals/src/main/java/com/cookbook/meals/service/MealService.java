@@ -122,7 +122,11 @@ public class MealService {
         }
     }
 
-    private List<String> validateHomeDishes(Meal meal){
+    private List<String> validateHomeDishes(Meal meal) throws IllegalMealException{
+        if(meal.getHomeDishesIds() == null){
+            throw new IllegalMealException("null homedish list");
+        }
+
         List<String> missing = webClient.post()
                                         .uri("http://localhost:8080/internal/check_dish_list")
                                         .bodyValue(meal.getHomeDishesIds())
@@ -136,7 +140,11 @@ public class MealService {
         return missing;
     }
 
-    private List<Integer> validateDeliveryDish(Meal meal){
+    private List<Integer> validateDeliveryDish(Meal meal) throws IllegalMealException{
+        if(meal.getDeliveryDishesIds() == null){
+            throw new IllegalMealException("null delivery dish list");
+        }
+
         List<Integer> missing = webClient.post()
                                         .uri("http://localhost:8081/internal/check_dish_list")
                                         .bodyValue(meal.getDeliveryDishesIds())
@@ -197,7 +205,29 @@ public class MealService {
     }
 
     private void putMealRating(DetailedMeal meal){
-        
+        int sum = webClient.post()
+                           .uri("http://localhost:8080/internal/rating_sum")
+                           .bodyValue(meal.getHomeDishesIds())
+                           .retrieve()
+                           .bodyToMono(new ParameterizedTypeReference<Integer>() {})
+                           .timeout(Duration.ofSeconds(10))
+                           .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
+                           .onErrorMap(e -> new Exception("error fetching home dishes", e))
+                           .block();
+
+        sum += webClient.post()
+                        .uri("http://localhost:8081/internal/rating_sum")
+                        .bodyValue(meal.getDeliveryDishesIds())
+                        .retrieve()
+                        .bodyToMono(new ParameterizedTypeReference<Integer>() {})
+                        .timeout(Duration.ofSeconds(10))
+                        .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
+                        .onErrorMap(e -> new Exception("error fetching delivery dishes", e))
+                        .block();
+
+        int avg = sum / Math.max((meal.getHomeDishesIds().size() + meal.getDeliveryDishesIds().size()), 1);
+
+        meal.setAverageDishRating(avg);
     }
 
 
