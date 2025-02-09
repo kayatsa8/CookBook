@@ -66,6 +66,18 @@ public class InternalDishController {
         }
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/names")
+    public List<String> getDishNames(@RequestBody List<Integer> ids){
+        try{
+            List<String> names = service.getDishNames(ids);
+            return names;
+        }
+        catch(DishNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
 
     
 }
