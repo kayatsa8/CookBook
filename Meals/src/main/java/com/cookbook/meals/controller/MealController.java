@@ -29,7 +29,7 @@ public class MealController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @GetMapping("/add")
+    @PostMapping("/add")
     public void addMeal(@RequestBody Meal meal){
         try{
             service.addMeal(meal);
@@ -40,7 +40,7 @@ public class MealController {
     }
 
     @ResponseStatus(HttpStatus.FOUND)
-    @PostMapping("/get/{id}")
+    @GetMapping("/get/{id}")
     public DetailedMeal getMeal(@PathVariable String id){
         try{
             DetailedMeal meal = service.getMeal(id);

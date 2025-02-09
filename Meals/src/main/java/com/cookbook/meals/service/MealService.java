@@ -77,7 +77,7 @@ public class MealService {
             throw new IllegalMealException("'meal time' cannot be null");
         }
 
-        if(meal.getUserRating() != null && (meal.getUserRating() < 0 || meal.getUserRating() > 5)){
+        if(meal.getUserRating() == null && (meal.getUserRating() < 0 || meal.getUserRating() > 5)){
             throw new IllegalMealException("rating must be between 0 to 5");
         }
 
