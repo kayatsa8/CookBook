@@ -2,6 +2,7 @@ package com.cookbook.meals.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.cookbook.meals.model.DetailedMeal;
 import com.cookbook.meals.model.Meal;
 import com.cookbook.meals.model.exceptions.IllegalMealException;
+import com.cookbook.meals.model.exceptions.MealNotFoundException;
 import com.cookbook.meals.service.MealService;
 
 @RestController
@@ -31,6 +34,18 @@ public class MealController {
             service.addMeal(meal);
         }
         catch(IllegalMealException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @ResponseStatus(HttpStatus.FOUND)
+    @PostMapping("/get/{id}")
+    public DetailedMeal getMeal(@PathVariable String id){
+        try{
+            DetailedMeal meal = service.getMeal(id);
+            return meal;
+        }
+        catch(MealNotFoundException | IllegalMealException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
