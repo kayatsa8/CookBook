@@ -20,16 +20,16 @@ import lombok.Setter;
 @Setter
 public class Meal {
     @Id
-    private String id;
+    protected String id;
 
-    private String name;
-    private Integer diners;
-    private List<String> homeDishesIds;
-    private List<Integer> deliveryDishesIds;
-    private List<String> toBuy;
-    private List<MealTime> mealTime;
-    private Integer userRating; // given by the user
-    private List<SpecialOccation> specialOccations;
+    protected String name;
+    protected Integer diners;
+    protected List<String> homeDishesIds;
+    protected List<Integer> deliveryDishesIds;
+    protected List<String> toBuy;
+    protected List<MealTime> mealTime;
+    protected Integer userRating; // given by the user
+    protected List<SpecialOccation> specialOccations;
     
 
     

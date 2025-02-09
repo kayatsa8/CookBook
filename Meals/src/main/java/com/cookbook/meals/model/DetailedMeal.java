@@ -24,4 +24,18 @@ public class DetailedMeal extends Meal{
     private Difficulty difficulty; // the maximum difficulty of the home dishes
     private Integer averageDishRating; // the avg of the rating of all dishes
 
+
+    public DetailedMeal(Meal meal){
+        this.id = meal.id;
+        this.name = meal.name;
+        this.diners = meal.diners;
+        this.homeDishesIds = meal.homeDishesIds;
+        this.deliveryDishesIds = meal.deliveryDishesIds;
+        this.toBuy = meal.toBuy;
+        this.mealTime = meal.mealTime;
+        this.userRating = meal.userRating;
+        this.specialOccations = meal.specialOccations;
+    }
+
+
 }
