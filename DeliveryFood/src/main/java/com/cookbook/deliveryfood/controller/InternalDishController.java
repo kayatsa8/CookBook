@@ -53,6 +53,18 @@ public class InternalDishController {
         }
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/rating_sum")
+    public int getRatingSum(@RequestBody List<Integer> ids){
+        try{
+            int sum = service.getRatingSum(ids);
+
+            return sum;
+        }
+        catch(DishNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
 
 
     
