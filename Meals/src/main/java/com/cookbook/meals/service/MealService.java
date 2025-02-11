@@ -55,6 +55,8 @@ public class MealService {
         putTypesInMeal(detailed);
         putMealDifficulty(detailed);
         putMealRating(detailed);
+        putDishesNames(detailed);
+        putDishesIngredients(detailed);
 
         return detailed;
     }
@@ -238,7 +240,7 @@ public class MealService {
                                            .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                                            .timeout(Duration.ofSeconds(10))
                                            .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
-                                           .onErrorMap(e -> new Exception("error fetching delivery dishes", e))
+                                           .onErrorMap(e -> new Exception("error fetching home dishes", e))
                                            .block();
 
         List<String> deliveryDishes = webClient.post()
@@ -253,6 +255,20 @@ public class MealService {
 
         meal.setHomeDishesNames(homeDishes);
         meal.setDeliveryDishesNames(deliveryDishes);
+    }
+
+    private void putDishesIngredients(DetailedMeal meal){
+        List<String> ingredients = webClient.post()
+                                           .uri("http://localhost:8080/internal/ingredients")
+                                           .bodyValue(meal.getHomeDishesIds())
+                                           .retrieve()
+                                           .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
+                                           .timeout(Duration.ofSeconds(10))
+                                           .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
+                                           .onErrorMap(e -> new Exception("error fetching home dishes", e))
+                                           .block();
+
+        meal.setIngredients(ingredients);
     }
 
 }
