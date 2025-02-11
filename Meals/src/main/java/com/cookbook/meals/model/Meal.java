@@ -38,7 +38,12 @@ public class Meal {
     public void updateMeal(Meal other){
         this.name = other.name == null ? this.name : other.name;
         this.diners = other.diners == null ? this.diners : other.diners;
+        this.homeDishesIds = other.homeDishesIds == null ? this.homeDishesIds : other.homeDishesIds;
+        this.deliveryDishesIds = other.deliveryDishesIds == null ? this.deliveryDishesIds : other.deliveryDishesIds;
+        this.toBuy = other.toBuy == null ? this.toBuy : other.toBuy;
+        this.mealTime = other.mealTime == null ? this.mealTime : other.mealTime;
         this.userRating = other.userRating == null ? this.userRating : other.userRating;
+        this.specialOccations = other.specialOccations == null ? this.specialOccations : other.specialOccations;
     }
     
 
