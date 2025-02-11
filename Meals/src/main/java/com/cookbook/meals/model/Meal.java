@@ -30,6 +30,16 @@ public class Meal {
     protected List<MealTime> mealTime;
     protected Integer userRating; // given by the user
     protected List<SpecialOccation> specialOccations;
+
+
+
+
+
+    public void updateMeal(Meal other){
+        this.name = other.name == null ? this.name : other.name;
+        this.diners = other.diners == null ? this.diners : other.diners;
+        this.userRating = other.userRating == null ? this.userRating : other.userRating;
+    }
     
 
     
