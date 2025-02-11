@@ -11,7 +11,7 @@ import com.cookbook.meals.model.Meal;
 @Repository
 public interface MealRepository extends MongoRepository<Meal, String> {
     
-    @Query(value = "{}", fields = "{'id'; 1, 'name': 1}")
+    @Query(value = "{}", fields = "{'id': 1, 'name': 1}")
     List<Meal> getIdsAndNames();
 
 }

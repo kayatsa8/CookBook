@@ -54,7 +54,7 @@ public class MealController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/get/all")
+    @GetMapping("/all")
     public Map<String, String> getMealsIdAndName(){
         Map<String, String> id_name = service.getMealsIdAndName();
 
