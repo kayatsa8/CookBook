@@ -26,6 +26,6 @@ public interface DeliveryDishRepository extends JpaRepository<DeliveryDish, Inte
     String getDishName(int id);
 
     @Query("SELECT d.flavors FROM DeliveryDish d WHERE d.id = ?1")
-    List<Flavors> getDishFlavors(int id);
+    List<List<Flavors>> getDishFlavors(int id);
     
 }

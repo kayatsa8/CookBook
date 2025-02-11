@@ -104,7 +104,7 @@ public class InternalDishService {
                 throw new DishNotFoundException();
             }
 
-            f = repo.getDishFlavors(id);
+            f = repo.getDishFlavors(id).get(0);
             flavors.addAll(f);
         }
 
