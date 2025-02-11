@@ -292,7 +292,7 @@ public class MealService {
                                            .bodyToMono(new ParameterizedTypeReference<List<Flavors>>() {})
                                            .timeout(Duration.ofSeconds(10))
                                            .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
-                                           .onErrorMap(e -> new Exception("error fetching home dishes", e))
+                                           .onErrorMap(e -> new Exception("error fetching delivery dishes", e))
                                            .block();
 
         Set<Flavors> flavorSet = new HashSet<>();
