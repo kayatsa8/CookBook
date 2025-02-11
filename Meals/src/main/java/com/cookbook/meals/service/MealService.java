@@ -85,6 +85,20 @@ public class MealService {
         repo.deleteById(id);
     }
 
+    public void updateMeal(Meal updated) throws MealNotFoundException, IllegalMealException{
+        Optional<Meal> oMeal = repo.findById(updated.getId());
+
+        if(oMeal.isEmpty()){
+            throw new MealNotFoundException();
+        }
+
+        validateUpdateMeal(updated);
+
+        Meal meal = oMeal.get();
+        
+        meal.updateMeal(updated);
+    }
+
 
 
 
@@ -112,12 +126,10 @@ public class MealService {
         List<String> badHomeIds = validateHomeDishes(meal);
 
         if(!badHomeIds.isEmpty()){
-            System.out.println(badHomeIds.size());
             StringBuilder sb = new StringBuilder();
 
             for(String id : badHomeIds){
                 sb.append(id).append(", ");
-                System.out.println(id);
             }
 
             sb.delete(sb.length() - 2, sb.length());
@@ -319,6 +331,67 @@ public class MealService {
         flavorSet.addAll(deliveryFlavors);
 
         meal.setFlavors(new ArrayList<>(flavorSet));
+    }
+
+    private void validateUpdateMeal(Meal meal) throws IllegalMealException{
+        if(meal.getName() != null && meal.getName().isBlank()){
+            throw new IllegalMealException("name cannot be empty");
+        }
+
+        if(meal.getDiners() != null && meal.getDiners() < 0){
+            throw new IllegalMealException("diners cannot be a negative number");
+        }
+
+        if(meal.getDiners() != null && meal.getDiners() < 0){
+            throw new IllegalMealException("diners cannot be a negative number");
+        }
+
+        List<String> badHomeIds = new ArrayList<>();
+
+        if(meal.getHomeDishesIds() != null){
+            badHomeIds = validateHomeDishes(meal);
+        }
+
+        if(!badHomeIds.isEmpty()){
+            StringBuilder sb = new StringBuilder();
+
+            for(String id : badHomeIds){
+                sb.append(id).append(", ");
+            }
+
+            sb.delete(sb.length() - 2, sb.length());
+
+            throw new IllegalMealException("bad home dishes ids: " + sb.toString());
+        }
+
+        List<Integer> badDeliveryIds = new ArrayList<>();
+
+        if(meal.getDeliveryDishesIds() != null){
+            badDeliveryIds = validateDeliveryDish(meal);
+        }
+
+        if(!badDeliveryIds.isEmpty()){
+            StringBuilder sb = new StringBuilder();
+
+            for(int id : badDeliveryIds){
+                sb.append(id).append(", ");
+            }
+
+            sb.delete(sb.length() - 2, sb.length());
+
+            throw new IllegalMealException("bad delivery dishes ids: " + sb.toString());
+        }
+
+        Set<MealType> types = getMealTypes(meal);
+
+        if(types.contains(MealType.MEAT) && types.contains(MealType.MILK)){
+            throw new IllegalMealException("a meal cannot contain both milk and meat");
+        }
+
+        if(meal.getUserRating() != null && (meal.getUserRating() < 0 || meal.getUserRating() > 5)){
+            throw new IllegalMealException("rating must be between 0 to 5");            
+        }
+
     }
 
 }
