@@ -2,6 +2,7 @@ package com.cookbook.meals.service;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.cookbook.meals.model.DetailedMeal;
 import com.cookbook.meals.model.Meal;
 import com.cookbook.meals.model.enums.Difficulty;
+import com.cookbook.meals.model.enums.Flavors;
 import com.cookbook.meals.model.enums.MealType;
 import com.cookbook.meals.model.exceptions.IllegalMealException;
 import com.cookbook.meals.model.exceptions.MealNotFoundException;
@@ -56,7 +58,8 @@ public class MealService {
         putMealDifficulty(detailed);
         putMealRating(detailed);
         putDishesNames(detailed);
-        putDishesIngredients(detailed);
+        putMealIngredients(detailed);
+        putMealFlavors(detailed);
 
         return detailed;
     }
@@ -257,7 +260,7 @@ public class MealService {
         meal.setDeliveryDishesNames(deliveryDishes);
     }
 
-    private void putDishesIngredients(DetailedMeal meal){
+    private void putMealIngredients(DetailedMeal meal){
         List<String> ingredients = webClient.post()
                                            .uri("http://localhost:8080/internal/ingredients")
                                            .bodyValue(meal.getHomeDishesIds())
@@ -269,6 +272,34 @@ public class MealService {
                                            .block();
 
         meal.setIngredients(ingredients);
+    }
+
+    private void putMealFlavors(DetailedMeal meal){
+        List<Flavors> homeFlavors = webClient.post()
+                                           .uri("http://localhost:8080/internal/flavors")
+                                           .bodyValue(meal.getHomeDishesIds())
+                                           .retrieve()
+                                           .bodyToMono(new ParameterizedTypeReference<List<Flavors>>() {})
+                                           .timeout(Duration.ofSeconds(10))
+                                           .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
+                                           .onErrorMap(e -> new Exception("error fetching home dishes", e))
+                                           .block();
+
+        List<Flavors> deliveryFlavors = webClient.post()
+                                           .uri("http://localhost:8081/internal/flavors")
+                                           .bodyValue(meal.getDeliveryDishesIds())
+                                           .retrieve()
+                                           .bodyToMono(new ParameterizedTypeReference<List<Flavors>>() {})
+                                           .timeout(Duration.ofSeconds(10))
+                                           .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
+                                           .onErrorMap(e -> new Exception("error fetching home dishes", e))
+                                           .block();
+
+        Set<Flavors> flavorSet = new HashSet<>();
+        flavorSet.addAll(homeFlavors);
+        flavorSet.addAll(deliveryFlavors);
+
+        meal.setFlavors(new ArrayList<>(flavorSet));
     }
 
 }
