@@ -61,6 +61,17 @@ public class MealController {
         return id_name;
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/delete/{id}")
+    public void deleteMeal(@PathVariable String id){
+        try{
+            service.deleteMeal(id);
+        }
+        catch(MealNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
 
 
     
