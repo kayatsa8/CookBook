@@ -97,6 +97,7 @@ public class MealService {
         Meal meal = oMeal.get();
         
         meal.updateMeal(updated);
+        repo.save(meal);
     }
 
 
