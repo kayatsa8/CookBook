@@ -1,5 +1,7 @@
 package com.cookbook.meals.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,6 +51,14 @@ public class MealController {
         catch(MealNotFoundException | IllegalMealException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/get/all")
+    public Map<String, String> getMealsIdAndName(){
+        Map<String, String> id_name = service.getMealsIdAndName();
+
+        return id_name;
     }
 
 
