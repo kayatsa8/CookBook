@@ -235,7 +235,7 @@ public class MealService {
                                            .uri("http://localhost:8080/internal/names")
                                            .bodyValue(meal.getHomeDishesIds())
                                            .retrieve()
-                                           .bodyToMono(new ParameterizedTypeReference<List<String>() {})
+                                           .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                                            .timeout(Duration.ofSeconds(10))
                                            .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
                                            .onErrorMap(e -> new Exception("error fetching delivery dishes", e))
