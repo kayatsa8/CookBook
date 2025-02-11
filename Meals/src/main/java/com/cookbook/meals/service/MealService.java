@@ -230,6 +230,29 @@ public class MealService {
         meal.setAverageDishRating(avg);
     }
 
+    private void putDishesNames(DetailedMeal meal){
+        List<String> homeDishes = webClient.post()
+                                           .uri("http://localhost:8080/internal/names")
+                                           .bodyValue(meal.getHomeDishesIds())
+                                           .retrieve()
+                                           .bodyToMono(new ParameterizedTypeReference<List<String>() {})
+                                           .timeout(Duration.ofSeconds(10))
+                                           .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
+                                           .onErrorMap(e -> new Exception("error fetching delivery dishes", e))
+                                           .block();
 
+        List<String> deliveryDishes = webClient.post()
+                                               .uri("http://localhost:8081/internal/names")
+                                               .bodyValue(meal.getDeliveryDishesIds())
+                                               .retrieve()
+                                               .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
+                                               .timeout(Duration.ofSeconds(10))
+                                               .onErrorMap(TimeoutException.class, throwable -> new RuntimeException("request timed out", throwable))
+                                               .onErrorMap(e -> new Exception("error fetching delivery dishes", e))
+                                               .block();
+
+        meal.setHomeDishesNames(homeDishes);
+        meal.setDeliveryDishesNames(deliveryDishes);
+    }
 
 }
