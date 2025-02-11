@@ -77,6 +77,13 @@ public class MealService {
         return id_name;
     }
 
+    public void deleteMeal(String id) throws MealNotFoundException{
+        if(!repo.existsById(id)){
+            throw new MealNotFoundException();
+        }
+
+        repo.deleteById(id);
+    }
 
 
 
