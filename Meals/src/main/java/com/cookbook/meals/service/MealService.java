@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -393,6 +394,20 @@ public class MealService {
             throw new IllegalMealException("rating must be between 0 to 5");            
         }
 
+    }
+
+    public DetailedMeal getRandom() throws Exception{
+        List<Meal> ids = repo.getIds();
+
+        if(ids.isEmpty()){
+            throw new Exception("no meals in the system");
+        }
+
+        Random r = new Random();
+        int index = r.nextInt(ids.size());
+        String id = ids.get(index).getId();
+
+        return getMeal(id);
     }
 
 }

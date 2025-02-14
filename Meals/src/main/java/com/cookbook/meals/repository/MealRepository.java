@@ -14,4 +14,7 @@ public interface MealRepository extends MongoRepository<Meal, String> {
     @Query(value = "{}", fields = "{'id': 1, 'name': 1}")
     List<Meal> getIdsAndNames();
 
+    @Query(value = "{}", fields = "{'id': 1}")
+    List<Meal> getIds();
+
 }

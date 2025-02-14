@@ -85,6 +85,17 @@ public class MealController {
         }
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/random")
+    public DetailedMeal getRandomMeal(){
+        try{
+            DetailedMeal meal = service.getRandom();
+            return meal;
+        }
+        catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 
     
 }
