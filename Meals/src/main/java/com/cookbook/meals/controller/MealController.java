@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.cookbook.meals.exceptions.IllegalMealException;
+import com.cookbook.meals.exceptions.MealNotFoundException;
 import com.cookbook.meals.model.DetailedMeal;
 import com.cookbook.meals.model.Meal;
-import com.cookbook.meals.model.exceptions.IllegalMealException;
-import com.cookbook.meals.model.exceptions.MealNotFoundException;
 import com.cookbook.meals.service.MealService;
 
 @RestController

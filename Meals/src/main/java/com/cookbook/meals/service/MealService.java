@@ -15,13 +15,13 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.cookbook.meals.exceptions.IllegalMealException;
+import com.cookbook.meals.exceptions.MealNotFoundException;
 import com.cookbook.meals.model.DetailedMeal;
 import com.cookbook.meals.model.Meal;
 import com.cookbook.meals.model.enums.Difficulty;
 import com.cookbook.meals.model.enums.Flavors;
 import com.cookbook.meals.model.enums.MealType;
-import com.cookbook.meals.model.exceptions.IllegalMealException;
-import com.cookbook.meals.model.exceptions.MealNotFoundException;
 import com.cookbook.meals.repository.MealRepository;
 
 import io.netty.handler.timeout.TimeoutException;
