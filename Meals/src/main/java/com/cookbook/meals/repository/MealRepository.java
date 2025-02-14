@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.cookbook.meals.model.Meal;
 
 @Repository
-public interface MealRepository extends MongoRepository<Meal, String> {
+public interface MealRepository extends MongoRepository<Meal, String>, QueryRepository {
     
     @Query(value = "{}", fields = "{'id': 1, 'name': 1}")
     List<Meal> getIdsAndNames();
