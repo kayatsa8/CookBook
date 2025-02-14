@@ -1,4 +1,4 @@
-package com.cookbook.homedishes.model.enums;
+package com.cookbook.meals.model.enums;
 
 public enum Difficulty {
     EASY(0), NORMAL(1), HARD(2);
