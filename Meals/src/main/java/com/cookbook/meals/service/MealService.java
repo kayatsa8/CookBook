@@ -22,6 +22,7 @@ import com.cookbook.meals.model.Meal;
 import com.cookbook.meals.model.enums.Difficulty;
 import com.cookbook.meals.model.enums.Flavors;
 import com.cookbook.meals.model.enums.MealType;
+import com.cookbook.meals.model.filter.Filter;
 import com.cookbook.meals.repository.MealRepository;
 
 import io.netty.handler.timeout.TimeoutException;
@@ -408,6 +409,71 @@ public class MealService {
         String id = ids.get(index).getId();
 
         return getMeal(id);
+    }
+
+    public List<DetailedMeal> getFilteredMeal(Filter filter) throws IllegalMealException{
+        List<Meal> firstFilter = repo.findByFilter(filter);
+        List<DetailedMeal> secondFilter = new ArrayList<>();
+        DetailedMeal detailed;
+        boolean toInsert;
+
+        for(Meal meal : firstFilter){
+            detailed = new DetailedMeal(meal);
+            toInsert = true;
+
+            if(filter.getIngredients() != null){
+                putMealIngredients(detailed);
+                toInsert &= detailed.getIngredients().containsAll(filter.getIngredients());
+            }
+
+            if(toInsert && filter.getFlavors() != null){
+                putMealFlavors(detailed);
+                toInsert &= detailed.getFlavors().containsAll(filter.getFlavors());
+            }
+
+            if(toInsert && filter.getType() != null){
+                putTypesInMeal(detailed);
+                toInsert &= detailed.getType().containsAll(filter.getType());
+            }
+
+            if(toInsert && filter.getDifficulty() != null){
+                putMealDifficulty(detailed);
+                toInsert &= detailed.getDifficulty() == filter.getDifficulty();
+            }
+
+            if(toInsert && filter.getAverageDishRating() != null){
+                putMealRating(detailed);
+
+                if(filter.getAverageDishRating().getLow() != null){
+                    toInsert &= detailed.getAverageDishRating() >= filter.getAverageDishRating().getLow();
+                }
+                if(filter.getAverageDishRating().getHigh() != null){
+                    toInsert &= detailed.getAverageDishRating() <= filter.getAverageDishRating().getHigh(); 
+                }
+            }
+
+            if(toInsert){
+                if(detailed.getIngredients() == null){
+                    putMealIngredients(detailed);
+                }
+                if(detailed.getFlavors() == null){
+                    putMealFlavors(detailed);
+                }
+                if(detailed.getType() == null){
+                    putTypesInMeal(detailed);
+                }
+                if(detailed.getDifficulty() == null){
+                    putMealDifficulty(detailed);
+                }
+                if(detailed.getAverageDishRating() == null){
+                    putMealRating(detailed);
+                }
+
+                secondFilter.add(detailed);
+            }
+        }
+
+        return secondFilter;
     }
 
 }
