@@ -1,5 +1,6 @@
 package com.cookbook.meals.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.cookbook.meals.exceptions.IllegalMealException;
 import com.cookbook.meals.exceptions.MealNotFoundException;
 import com.cookbook.meals.model.DetailedMeal;
 import com.cookbook.meals.model.Meal;
+import com.cookbook.meals.model.filter.Filter;
 import com.cookbook.meals.service.MealService;
 
 @RestController
@@ -97,5 +99,16 @@ public class MealController {
         }
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/filter")
+    public List<DetailedMeal> getByFilter(@RequestBody Filter filter){
+        try{
+            List<DetailedMeal> meals = service.getFilteredMeal(filter);
+            return meals;
+        }
+        catch(IllegalMealException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
     
 }
