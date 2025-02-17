@@ -476,4 +476,18 @@ public class MealService {
         return secondFilter;
     }
 
+    public DetailedMeal getRandomFilteredMeal(Filter filter) throws IllegalMealException, MealNotFoundException{
+        List<DetailedMeal> meals = getFilteredMeal(filter);
+
+        if(meals.isEmpty()){
+            throw new MealNotFoundException();
+        }
+
+        Random r = new Random();
+        int index = r.nextInt(meals.size());
+
+        return meals.get(index);
+    }
+
+
 }
