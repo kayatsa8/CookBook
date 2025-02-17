@@ -71,7 +71,6 @@ public class MealRepositoryImpl implements QueryRepository{
         }
 
         meals = template.find(query, Meal.class);
-        
 
         return meals;
     }
