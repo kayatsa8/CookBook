@@ -18,8 +18,7 @@ import lombok.NoArgsConstructor;
 public class Filter {
     // search with QueryRepository
     private String name;
-    private Integer diners;
-    private Range diner;
+    private Range diners;
     private List<String> homeDishesIds;
     private List<Integer> deliveryDishesIds;
     private List<String> toBuy;
