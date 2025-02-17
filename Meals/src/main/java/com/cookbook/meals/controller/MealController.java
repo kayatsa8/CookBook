@@ -100,7 +100,7 @@ public class MealController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/filter")
+    @PostMapping("/filter")
     public List<DetailedMeal> getByFilter(@RequestBody Filter filter){
         try{
             List<DetailedMeal> meals = service.getFilteredMeal(filter);
@@ -111,4 +111,15 @@ public class MealController {
         }
     }
     
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/filter/random")
+    public DetailedMeal getRandomFilteredMeal(@RequestBody Filter filter){
+        try{
+            DetailedMeal meal = service.getRandomFilteredMeal(filter);
+            return meal;
+        }
+        catch(IllegalMealException | MealNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }
