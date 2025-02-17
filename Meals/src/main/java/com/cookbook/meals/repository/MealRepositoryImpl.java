@@ -37,15 +37,15 @@ public class MealRepositoryImpl implements QueryRepository{
             query.addCriteria(criteria);
         }
 
-        if(filter.getHomeDishesIds() != null){
+        if(filter.getHomeDishesIds() != null && !filter.getHomeDishesIds().isEmpty()){
             query.addCriteria(Criteria.where("homeDishesIds").all(filter.getHomeDishesIds()));
         }
 
-        if(filter.getDeliveryDishesIds() != null){
+        if(filter.getDeliveryDishesIds() != null && !filter.getDeliveryDishesIds().isEmpty()){
             query.addCriteria(Criteria.where("deliveryDishesIds").all(filter.getDeliveryDishesIds()));
         }
 
-        if(filter.getToBuy() != null){
+        if(filter.getToBuy() != null && !filter.getToBuy().isEmpty()){
             query.addCriteria(Criteria.where("toBuy").all(filter.getToBuy()));
         }
 
@@ -66,7 +66,7 @@ public class MealRepositoryImpl implements QueryRepository{
             query.addCriteria(criteria);
         }
 
-        if(filter.getSpecialOccations() != null){
+        if(filter.getSpecialOccations() != null && !filter.getSpecialOccations().isEmpty()){
             query.addCriteria(Criteria.where("specialOccations").all(filter.getSpecialOccations()));
         }
 
