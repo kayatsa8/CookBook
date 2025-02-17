@@ -11,13 +11,12 @@ import com.cookbook.meals.model.enums.SpecialOccation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 public class Filter {
+    // search with QueryRepository
     private String name;
     private Integer diners;
     private Range diner;
@@ -27,6 +26,8 @@ public class Filter {
     private List<MealTime> mealTime;
     private Range userRating;
     private List<SpecialOccation> specialOccations;
+
+    // filter after first search with QueryRepository
     private List<String> ingredients;
     private List<Flavors> flavors;
     private List<MealType> type;
