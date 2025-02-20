@@ -25,9 +25,15 @@ import com.cookbook.homedishes.service.HomeDishService;
 @RestController
 @RequestMapping("/api/home_dish")
 public class HomeDishController {
-    
-    @Autowired
     private HomeDishService service;
+
+
+    @Autowired
+    public HomeDishController(HomeDishService service){
+        this.service = service;
+    }
+
+
 
 
     @ResponseStatus(HttpStatus.OK)
