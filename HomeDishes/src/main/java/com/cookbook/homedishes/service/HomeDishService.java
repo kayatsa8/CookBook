@@ -148,12 +148,20 @@ public class HomeDishService {
         }
     }
 
-    public List<HomeDish> getByFilter(Filter filter) throws IllegalFilterException{
+    public Map<String, String> getByFilter(Filter filter) throws IllegalFilterException{
         if(filter == null){
             throw new IllegalFilterException("filter cannot be null");
         }
 
-        return repo.getByFilter(filter);
+        Map<String, String> id_name = new HashMap<>();
+
+        List<HomeDish> dishes = repo.getByFilter(filter);
+
+        for(HomeDish dish : dishes){
+            id_name.put(dish.getId(), dish.getName());
+        }
+
+        return id_name;
     }
     
     public HomeDish getRandomDish() throws DishNotFoundException{

@@ -82,6 +82,7 @@ public class HomeDishRepositoryImpl implements TemplateRepository{
             query.addCriteria(criteria);
         }
 
+        query.fields().include("id", "name");
 
         dishes = template.find(query, HomeDish.class);
 
