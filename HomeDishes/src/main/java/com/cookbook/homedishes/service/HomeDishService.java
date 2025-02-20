@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.cookbook.homedishes.exception.DishExistsException;
 import com.cookbook.homedishes.exception.IllegalDishException;
+import com.cookbook.homedishes.exception.IllegalFilterException;
 import com.cookbook.homedishes.model.HomeDish;
 import com.cookbook.homedishes.model.filter.Filter;
 import com.cookbook.homedishes.repository.HomeDishRepository;
@@ -143,7 +144,11 @@ public class HomeDishService {
         }
     }
 
-    public List<HomeDish> getByFilter(Filter filter){
+    public List<HomeDish> getByFilter(Filter filter) throws IllegalFilterException{
+        if(filter == null){
+            throw new IllegalFilterException("filter cannot be null");
+        }
+
         return repo.getByFilter(filter);
     }
     
@@ -167,6 +172,10 @@ public class HomeDishService {
     }
 
     public HomeDish getRandomWithFilter(Filter filter) throws Exception{
+        if(filter == null){
+            throw new IllegalFilterException("filter cannot be null");
+        }
+
         List<HomeDish> dishes = getByFilter(filter);
 
         if(dishes.isEmpty()){
