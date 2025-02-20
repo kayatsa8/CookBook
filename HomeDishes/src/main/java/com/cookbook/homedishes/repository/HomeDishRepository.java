@@ -33,5 +33,5 @@ public interface HomeDishRepository extends MongoRepository<HomeDish, String>, T
     HomeDish getDishFlavors(String id);
 
     @Query(value = "{}", fields = "{'name' : 1}")
-    List<HomeDish> getAllNames();
+    List<HomeDish> getAllDishNames();
 }
