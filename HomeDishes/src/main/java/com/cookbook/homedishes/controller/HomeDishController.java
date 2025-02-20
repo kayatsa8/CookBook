@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
+import com.cookbook.homedishes.exception.DishNotFoundException;
+import com.cookbook.homedishes.exception.IllegalDishException;
 import com.cookbook.homedishes.exception.IllegalFilterException;
 import com.cookbook.homedishes.model.HomeDish;
 import com.cookbook.homedishes.model.filter.Filter;
@@ -104,7 +106,7 @@ public class HomeDishController {
             HomeDish dish = service.getRandomDish();
             return dish;
         }
-        catch(Exception e){
+        catch(DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
         }
     }
@@ -116,7 +118,7 @@ public class HomeDishController {
             HomeDish dish = service.getRandomWithFilter(filter);
             return dish;
         }
-        catch(Exception e){
+        catch(IllegalFilterException | DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
         }
     }

@@ -156,7 +156,7 @@ public class HomeDishService {
         return repo.getByFilter(filter);
     }
     
-    public HomeDish getRandomDish() throws Exception{
+    public HomeDish getRandomDish() throws DishNotFoundException{
         List<HomeDish> ids = repo.getAllIds();
 
         if(ids.isEmpty()){
@@ -175,7 +175,7 @@ public class HomeDishService {
         return oDish.get();
     }
 
-    public HomeDish getRandomWithFilter(Filter filter) throws Exception{
+    public HomeDish getRandomWithFilter(Filter filter) throws IllegalFilterException, DishNotFoundException{
         if(filter == null){
             throw new IllegalFilterException("filter cannot be null");
         }
