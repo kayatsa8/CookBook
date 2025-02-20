@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
+import com.cookbook.homedishes.exception.IllegalFilterException;
 import com.cookbook.homedishes.model.HomeDish;
 import com.cookbook.homedishes.model.filter.Filter;
 import com.cookbook.homedishes.service.HomeDishService;
@@ -87,7 +88,13 @@ public class HomeDishController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/filter")
     public List<HomeDish> getByFilter(@RequestBody Filter filter){
-        return service.getByFilter(filter);
+        try{
+            List<HomeDish> dishes =  service.getByFilter(filter);
+            return dishes;
+        }
+        catch(IllegalFilterException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)
