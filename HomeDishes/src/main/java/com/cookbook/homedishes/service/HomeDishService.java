@@ -69,9 +69,7 @@ public class HomeDishService {
     }
 
     public void updateDish(String id, HomeDish updated) throws IllegalDishException{
-        if(updated.getRating() > 5 || updated.getRating() < 0){
-            throw new IllegalDishException("the rating of a dish must be between 0 to 5");
-        }
+        validateUpdateDish(updated);
 
         Optional<HomeDish> o = repo.findById(id);
 
@@ -83,6 +81,20 @@ public class HomeDishService {
         dish.updateFromOther(updated);
 
         repo.save(dish);
+    }
+
+    private void validateUpdateDish(HomeDish updated) throws IllegalDishException{
+        if(updated.getRating() != null && (updated.getRating() > 5 || updated.getRating() < 0)){
+            throw new IllegalDishException("the rating of a dish must be between 0 to 5");
+        }
+
+        if(updated.getDiners() != null && updated.getDiners() < 0){
+            throw new IllegalDishException("the number of diners must be a non-negative number");
+        }
+
+        if(updated.getTimeInMinutes() != null && updated.getTimeInMinutes() < 0){
+            throw new IllegalDishException("the time must be a non-negative number");
+        }
     }
 
     public boolean isDishExists(String id){
