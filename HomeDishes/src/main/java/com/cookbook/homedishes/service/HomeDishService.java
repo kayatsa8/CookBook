@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cookbook.homedishes.exception.DishExistsException;
+import com.cookbook.homedishes.exception.DishNotFoundException;
 import com.cookbook.homedishes.exception.IllegalDishException;
 import com.cookbook.homedishes.exception.IllegalFilterException;
 import com.cookbook.homedishes.model.HomeDish;
@@ -159,7 +160,7 @@ public class HomeDishService {
         List<HomeDish> ids = repo.getAllIds();
 
         if(ids.isEmpty()){
-            throw new Exception("no dishes in system");
+            throw new DishNotFoundException();
         }
 
         Random rand = new Random();
@@ -168,7 +169,7 @@ public class HomeDishService {
         Optional<HomeDish> oDish = repo.findById(ids.get(index).getId());
 
         if(oDish.isEmpty()){
-            throw new Exception("cannot get random dish");
+            throw new DishNotFoundException();
         }
 
         return oDish.get();
@@ -182,7 +183,7 @@ public class HomeDishService {
         List<HomeDish> dishes = getByFilter(filter);
 
         if(dishes.isEmpty()){
-            throw new Exception("no dishes in system");
+            throw new DishNotFoundException();
         }
 
         Random rand = new Random();
