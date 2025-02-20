@@ -1,5 +1,6 @@
 package com.cookbook.meals.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.cookbook.meals.exceptions.IllegalMealException;
+import com.cookbook.meals.exceptions.MealNotFoundException;
 import com.cookbook.meals.model.DetailedMeal;
 import com.cookbook.meals.model.Meal;
-import com.cookbook.meals.model.exceptions.IllegalMealException;
-import com.cookbook.meals.model.exceptions.MealNotFoundException;
+import com.cookbook.meals.model.filter.Filter;
 import com.cookbook.meals.service.MealService;
 
 @RestController
@@ -85,6 +87,39 @@ public class MealController {
         }
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/random")
+    public DetailedMeal getRandomMeal(){
+        try{
+            DetailedMeal meal = service.getRandom();
+            return meal;
+        }
+        catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/filter")
+    public List<DetailedMeal> getByFilter(@RequestBody Filter filter){
+        try{
+            List<DetailedMeal> meals = service.getFilteredMeal(filter);
+            return meals;
+        }
+        catch(IllegalMealException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
     
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/filter/random")
+    public DetailedMeal getRandomFilteredMeal(@RequestBody Filter filter){
+        try{
+            DetailedMeal meal = service.getRandomFilteredMeal(filter);
+            return meal;
+        }
+        catch(IllegalMealException | MealNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }

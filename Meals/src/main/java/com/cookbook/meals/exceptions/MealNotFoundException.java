@@ -1,4 +1,4 @@
-package com.cookbook.meals.model.exceptions;
+package com.cookbook.meals.exceptions;
 
 public class MealNotFoundException extends Exception {
     
