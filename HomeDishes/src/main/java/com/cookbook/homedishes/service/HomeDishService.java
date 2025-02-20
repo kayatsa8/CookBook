@@ -18,9 +18,12 @@ import com.cookbook.homedishes.repository.HomeDishRepository;
 
 @Service
 public class HomeDishService {
+    private HomeDishRepository repo;
 
     @Autowired
-    private HomeDishRepository repo;
+    public HomeDishService(HomeDishRepository repository){
+        this.repo = repository;
+    }
 
 
 
