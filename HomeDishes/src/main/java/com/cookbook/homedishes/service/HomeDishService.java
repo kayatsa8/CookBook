@@ -106,6 +106,10 @@ public class HomeDishService {
             throw new IllegalDishException("the dish name is empty");
         }
 
+        if(dish.getDiners() == null || dish.getDiners() < 0){
+            throw new IllegalDishException("the number of diners must be specified and non-negative");
+        }
+        
         if(dish.getRecipe() == null){
             throw new IllegalDishException("the recipe cannot be null");
         }
@@ -114,8 +118,8 @@ public class HomeDishService {
             throw new IllegalDishException("the ingredients cannot be null");
         }
 
-        if(dish.getTimeInMinutes() < 0){
-            throw new IllegalDishException("the time cannot be negative");
+        if(dish.getTimeInMinutes() == null || dish.getTimeInMinutes() < 0){
+            throw new IllegalDishException("the time cannot be negative and must be specified");
         }
 
         if(dish.getType() == null){
@@ -126,8 +130,16 @@ public class HomeDishService {
             throw new IllegalDishException("the flavors list cannot be null");
         }
 
-        if(dish.getRating() < 0 || dish.getRating() > 5){
-            throw new IllegalDishException("the rating should be between 0 to 5");
+        if(dish.getDifficulty() == null){
+            throw new IllegalDishException("the difficulty must be specified");
+        }
+
+        if(dish.getMealPart() == null){
+            throw new IllegalDishException("the meal part must be specified");
+        }
+
+        if(dish.getRating() == null || (dish.getRating() < 0 || dish.getRating() > 5)){
+            throw new IllegalDishException("the rating should be between 0 to 5 and must be specified");
         }
     }
 
