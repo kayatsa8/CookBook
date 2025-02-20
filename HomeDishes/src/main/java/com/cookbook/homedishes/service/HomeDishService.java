@@ -1,5 +1,6 @@
 package com.cookbook.homedishes.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,7 +165,7 @@ public class HomeDishService {
         return id_name;
     }
     
-    public HomeDish getRandomDish() throws DishNotFoundException{
+    public Map<String, String> getRandomDish() throws DishNotFoundException{
         List<HomeDish> ids = repo.getAllIds();
 
         if(ids.isEmpty()){
@@ -180,25 +181,28 @@ public class HomeDishService {
             throw new DishNotFoundException();
         }
 
-        return oDish.get();
+        return Map.of(oDish.get().getId(), oDish.get().getName());
     }
 
-    public HomeDish getRandomWithFilter(Filter filter) throws IllegalFilterException, DishNotFoundException{
+    public Map<String, String> getRandomWithFilter(Filter filter) throws IllegalFilterException, DishNotFoundException{
         if(filter == null){
             throw new IllegalFilterException("filter cannot be null");
         }
 
-        List<HomeDish> dishes = getByFilter(filter);
+        Map<String, String> ids_names = getByFilter(filter);
 
-        if(dishes.isEmpty()){
+        if(ids_names.isEmpty()){
             throw new DishNotFoundException();
         }
 
+        List<String> ids = new ArrayList<>(ids_names.keySet());
+
         Random rand = new Random();
-        int index = rand.nextInt(dishes.size());
+        int index = rand.nextInt(ids.size());
 
+        String id = ids.get(index);
 
-        return dishes.get(index);
+        return Map.of(id, ids_names.get(id));
     }
 
 }
