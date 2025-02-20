@@ -2,7 +2,6 @@ package com.cookbook.homedishes.model.filter;
 
 import java.util.List;
 
-import com.cookbook.homedishes.model.CookTime;
 import com.cookbook.homedishes.model.enums.Difficulty;
 import com.cookbook.homedishes.model.enums.DishType;
 import com.cookbook.homedishes.model.enums.Flavors;
@@ -21,8 +20,7 @@ public class Filter {
    private String nameKeyword;
    private Range diners;
    private List<String> ingredients;
-   private CookTime low;
-   private CookTime high;
+   private Range timeInMinutes;
    private DishType type;
    private List<Flavors> flavors;
    private Difficulty difficulty;
