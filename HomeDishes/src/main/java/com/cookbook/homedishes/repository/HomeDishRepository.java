@@ -34,4 +34,7 @@ public interface HomeDishRepository extends MongoRepository<HomeDish, String>, T
 
     @Query(value = "{}", fields = "{'id' : 1, 'name' : 1}")
     List<HomeDish> getAllDishIdsAndNames();
+
+    @Query(value = "{'id' : ?0}", fields = "{'id' : 1, 'name' : 1}")
+    List<HomeDish> getIdAndName(String id);
 }
