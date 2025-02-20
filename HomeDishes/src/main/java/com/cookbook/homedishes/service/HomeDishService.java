@@ -1,6 +1,8 @@
 package com.cookbook.homedishes.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -43,6 +45,18 @@ public class HomeDishService {
         return repo.findAll();
     }
 
+    // <id, name>
+    public Map<String, String> getAllDishesNames(){
+        List<HomeDish> dishes = repo.getAllDishIdsAndNames();
+        Map<String, String> ids_names = new HashMap<>(dishes.size());
+
+        for(HomeDish dish : dishes){
+            ids_names.put(dish.getId(), dish.getName());
+        }
+
+        return ids_names;
+    }
+    
     public HomeDish getDish(String id) throws IllegalDishException{
         Optional<HomeDish> dish = repo.findById(id);
 
