@@ -95,10 +95,10 @@ public class HomeDishController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/filter")
-    public List<HomeDish> getByFilter(@RequestBody Filter filter){
+    public Map<String, String> getByFilter(@RequestBody Filter filter){
         try{
-            List<HomeDish> dishes =  service.getByFilter(filter);
-            return dishes;
+            Map<String, String> ids_names = service.getByFilter(filter);
+            return ids_names;
         }
         catch(IllegalFilterException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
@@ -107,10 +107,10 @@ public class HomeDishController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/random")
-    public HomeDish getRandomDish(){
+    public Map<String, String> getRandomDish(){
         try{
-            HomeDish dish = service.getRandomDish();
-            return dish;
+            Map<String, String> id_name = service.getRandomDish();
+            return id_name;
         }
         catch(DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
@@ -119,10 +119,10 @@ public class HomeDishController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/random/filter")
-    public HomeDish getRandomFilteredDish(@RequestBody Filter filter){
+    public Map<String, String> getRandomFilteredDish(@RequestBody Filter filter){
         try{
-            HomeDish dish = service.getRandomWithFilter(filter);
-            return dish;
+            Map<String, String> id_name = service.getRandomWithFilter(filter);
+            return id_name;
         }
         catch(IllegalFilterException | DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
