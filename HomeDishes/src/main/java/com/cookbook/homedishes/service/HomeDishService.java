@@ -46,7 +46,7 @@ public class HomeDishService {
     }
 
     // <id, name>
-    public Map<String, String> getAllDishesNames(){
+    public Map<String, String> getDishIdsAndNames(){
         List<HomeDish> dishes = repo.getAllDishIdsAndNames();
         Map<String, String> ids_names = new HashMap<>(dishes.size());
 
