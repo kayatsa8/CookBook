@@ -34,8 +34,6 @@ public class HomeDishController {
     }
 
 
-
-
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/")
     public String home(){
