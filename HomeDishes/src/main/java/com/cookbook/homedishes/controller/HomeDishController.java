@@ -1,6 +1,7 @@
 package com.cookbook.homedishes.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
+import com.cookbook.homedishes.exception.DishNotFoundException;
+import com.cookbook.homedishes.exception.IllegalFilterException;
 import com.cookbook.homedishes.model.HomeDish;
 import com.cookbook.homedishes.model.filter.Filter;
 import com.cookbook.homedishes.service.HomeDishService;
@@ -62,6 +65,12 @@ public class HomeDishController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/all/id_name")
+    public Map<String, String> getDishIdsAndNames(){
+        return service.getDishIdsAndNames();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/dish/{id}")
     public HomeDish getDish(@PathVariable String id){
         try{
@@ -87,7 +96,13 @@ public class HomeDishController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/filter")
     public List<HomeDish> getByFilter(@RequestBody Filter filter){
-        return service.getByFilter(filter);
+        try{
+            List<HomeDish> dishes =  service.getByFilter(filter);
+            return dishes;
+        }
+        catch(IllegalFilterException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -97,7 +112,7 @@ public class HomeDishController {
             HomeDish dish = service.getRandomDish();
             return dish;
         }
-        catch(Exception e){
+        catch(DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
         }
     }
@@ -109,7 +124,7 @@ public class HomeDishController {
             HomeDish dish = service.getRandomWithFilter(filter);
             return dish;
         }
-        catch(Exception e){
+        catch(IllegalFilterException | DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
         }
     }
