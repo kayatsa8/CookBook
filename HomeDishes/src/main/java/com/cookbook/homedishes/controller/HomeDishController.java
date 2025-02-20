@@ -1,6 +1,7 @@
 package com.cookbook.homedishes.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,6 +62,12 @@ public class HomeDishController {
     @GetMapping("/all")
     public List<HomeDish> getAll(){
         return service.getAll();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/all/id_name")
+    public Map<String, String> getDishIdsAndNames(){
+        return service.getDishIdsAndNames();
     }
 
     @ResponseStatus(HttpStatus.OK)
