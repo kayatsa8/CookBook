@@ -27,7 +27,7 @@ public class HomeDish {
     private Integer diners;
     private String recipe;
     private List<String> ingredients;
-    private Integer timeInMinutes;
+    private CookTime cookTime;
     private DishType type;
     private List<Flavors> flavors;
     private Difficulty difficulty;
@@ -40,7 +40,7 @@ public class HomeDish {
         diners = other.getDiners() == null ? diners : other.getDiners();
         recipe = other.getRecipe() == null ? recipe : other.getRecipe();
         ingredients = other.getIngredients() == null ? ingredients : other.getIngredients();
-        timeInMinutes = other.getTimeInMinutes() == null ? timeInMinutes : other.getTimeInMinutes();
+        cookTime = other.getCookTime() == null ? cookTime : other.getCookTime();
         type = other.getType() == null ? type : other.getType();
         flavors = other.getFlavors() == null ? flavors : other.getFlavors();
         difficulty = other.getDifficulty() == null ? difficulty : other.getDifficulty();
