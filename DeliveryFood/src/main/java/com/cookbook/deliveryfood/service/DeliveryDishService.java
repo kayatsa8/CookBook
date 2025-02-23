@@ -17,9 +17,13 @@ import com.cookbook.deliveryfood.repository.DeliveryDishRepository;
 
 @Service
 public class DeliveryDishService {
+    private DeliveryDishRepository repo;
 
     @Autowired
-    private DeliveryDishRepository repo;
+    public DeliveryDishService(DeliveryDishRepository repository){
+        this.repo = repository;
+    }
+
 
 
     public void addDish(DeliveryDish dish) throws InvalidDishException{
