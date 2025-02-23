@@ -10,7 +10,6 @@ import com.cookbook.homedishes.model.enums.DishType;
 import com.cookbook.homedishes.model.enums.Flavors;
 import com.cookbook.homedishes.model.enums.MealPart;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,31 +24,28 @@ public class HomeDish {
     @Id
     private String id;
     private String name;
-    private int diners;
-    @NotNull
-    private String recipe;
-    @NotNull
+    private Integer diners;
+    private String[] recipe;
     private List<String> ingredients;
-    private int timeInMinutes;
+    private Integer timeInMinutes;
     private DishType type;
-    @NotNull
     private List<Flavors> flavors;
     private Difficulty difficulty;
     private MealPart mealPart;
-    private int rating;
+    private Integer rating;
 
 
     public void updateFromOther(HomeDish other){
         name = (other.getName() == null || other.getName().isEmpty()) ? name : other.getName();
-        diners = other.getDiners() == 0 ? diners : other.getDiners();
+        diners = other.getDiners() == null ? diners : other.getDiners();
         recipe = other.getRecipe() == null ? recipe : other.getRecipe();
         ingredients = other.getIngredients() == null ? ingredients : other.getIngredients();
-        timeInMinutes = other.getTimeInMinutes() == 0 ? timeInMinutes : other.getTimeInMinutes();
+        timeInMinutes = other.getTimeInMinutes() == null ? timeInMinutes : other.getTimeInMinutes();
         type = other.getType() == null ? type : other.getType();
         flavors = other.getFlavors() == null ? flavors : other.getFlavors();
         difficulty = other.getDifficulty() == null ? difficulty : other.getDifficulty();
         mealPart = other.getMealPart() == null ? mealPart : other.getMealPart();
-        rating = other.getRating() == 0 ? rating : other.getRating();
+        rating = other.getRating() == null ? rating : other.getRating();
     }
 
 
