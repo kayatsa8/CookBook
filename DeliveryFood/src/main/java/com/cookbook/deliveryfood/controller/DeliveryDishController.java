@@ -124,7 +124,7 @@ public class DeliveryDishController {
             DeliveryDish dish = service.getRandomFiltered(filter);
             return dish;
         }
-        catch(NoDishesException e){
+        catch(NoDishesException | DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
