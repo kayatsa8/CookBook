@@ -29,7 +29,7 @@ public interface DeliveryDishRepository extends JpaRepository<DeliveryDish, Inte
     @Query("SELECT d.flavors FROM DeliveryDish d WHERE d.id = ?1")
     List<List<Flavors>> getDishFlavors(int id);
 
-    @Query("SELECT new com.cookbook.deliveryfood.model.DTO(d.name, d.email) FROM DeliveryDish d")
+    @Query("SELECT new com.cookbook.deliveryfood.model.DTO(d.id, d.name) FROM DeliveryDish d")
     List<DTO> getIdsAndNames();
     
 }
