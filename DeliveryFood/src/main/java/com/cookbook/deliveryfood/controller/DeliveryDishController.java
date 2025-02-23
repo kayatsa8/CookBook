@@ -1,6 +1,7 @@
 package com.cookbook.deliveryfood.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,6 +71,12 @@ public class DeliveryDishController {
         return service.getAllDishes();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/all/id_name")
+    public Map<Integer, String> getIdsAndNames(){
+        return service.getIdsAndNames();
+    }
+    
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/delete/{id}")
     public void deleteDish(@PathVariable int id){
