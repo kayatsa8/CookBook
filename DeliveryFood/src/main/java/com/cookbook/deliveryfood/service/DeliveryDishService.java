@@ -1,13 +1,16 @@
 package com.cookbook.deliveryfood.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cookbook.deliveryfood.model.DTO;
 import com.cookbook.deliveryfood.model.DeliveryDish;
 import com.cookbook.deliveryfood.exception.DishNotFoundException;
 import com.cookbook.deliveryfood.exception.InvalidDishException;
@@ -49,6 +52,17 @@ public class DeliveryDishService {
         iterable.forEach(dishes::add);
 
         return dishes;
+    }
+
+    public Map<Integer, String> getIdsAndNames(){
+        List<DTO> dtos = repo.getIdsAndNames();
+        Map<Integer, String> ids_names = new HashMap<>();
+
+        for(DTO dto : dtos){
+            ids_names.put(dto.getId(), dto.getName());
+        }
+
+        return ids_names;
     }
 
     public void deleteDish(int id) throws DishNotFoundException{
