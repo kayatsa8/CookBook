@@ -101,7 +101,7 @@ public class DeliveryDishController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/get/filter")
-    public List<DeliveryDish> getByFilter(@RequestBody Filter filter){
+    public Map<Integer, String> getByFilter(@RequestBody Filter filter){
         return service.getByFilter(filter);
     }
 
