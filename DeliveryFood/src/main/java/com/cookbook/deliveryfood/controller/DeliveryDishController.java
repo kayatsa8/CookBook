@@ -26,9 +26,12 @@ import com.cookbook.deliveryfood.service.DeliveryDishService;
 @RestController
 @RequestMapping("api/delivery_dish")
 public class DeliveryDishController {
+    private DeliveryDishService service;
 
     @Autowired
-    private DeliveryDishService service;
+    public DeliveryDishController(DeliveryDishService service){
+        this.service = service;
+    }
 
 
 
