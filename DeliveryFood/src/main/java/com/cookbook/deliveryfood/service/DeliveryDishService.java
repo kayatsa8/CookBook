@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cookbook.deliveryfood.model.DeliveryDish;
-import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
-import com.cookbook.deliveryfood.model.exception.InvalidDishException;
-import com.cookbook.deliveryfood.model.exception.NoDishesException;
+import com.cookbook.deliveryfood.exception.DishNotFoundException;
+import com.cookbook.deliveryfood.exception.InvalidDishException;
+import com.cookbook.deliveryfood.exception.NoDishesException;
 import com.cookbook.deliveryfood.model.filter.Filter;
 import com.cookbook.deliveryfood.repository.DeliveryDishRepository;
 

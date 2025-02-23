@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.cookbook.deliveryfood.model.enums.DishType;
 import com.cookbook.deliveryfood.model.enums.Flavors;
-import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
+import com.cookbook.deliveryfood.exception.DishNotFoundException;
 import com.cookbook.deliveryfood.repository.DeliveryDishRepository;
 
 @Service
