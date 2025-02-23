@@ -165,7 +165,7 @@ public class HomeDishService {
         return id_name;
     }
     
-    public Map<String, String> getRandomDish() throws DishNotFoundException{
+    public HomeDish getRandomDish() throws DishNotFoundException{
         List<HomeDish> ids = repo.getAllIds();
 
         if(ids.isEmpty()){
@@ -181,7 +181,9 @@ public class HomeDishService {
             throw new DishNotFoundException();
         }
 
-        return Map.of(oDish.get().getId(), oDish.get().getName());
+        HomeDish dish = oDish.get();
+
+        return dish;
     }
 
     public Map<String, String> getRandomWithFilter(Filter filter) throws IllegalFilterException, DishNotFoundException{
