@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.cookbook.deliveryfood.model.DTO;
 import com.cookbook.deliveryfood.model.DeliveryDish;
 import com.cookbook.deliveryfood.model.enums.DishType;
 import com.cookbook.deliveryfood.model.enums.Flavors;
@@ -27,5 +28,8 @@ public interface DeliveryDishRepository extends JpaRepository<DeliveryDish, Inte
 
     @Query("SELECT d.flavors FROM DeliveryDish d WHERE d.id = ?1")
     List<List<Flavors>> getDishFlavors(int id);
+
+    @Query("SELECT new com.cookbook.deliveryfood.model.DTO(d.name, d.email) FROM DeliveryDish d")
+    List<DTO> getIdsAndNames();
     
 }
