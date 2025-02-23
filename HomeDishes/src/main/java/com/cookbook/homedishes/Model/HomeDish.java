@@ -25,7 +25,7 @@ public class HomeDish {
     private String id;
     private String name;
     private Integer diners;
-    private String recipe;
+    private String[] recipe;
     private List<String> ingredients;
     private Integer timeInMinutes;
     private DishType type;
