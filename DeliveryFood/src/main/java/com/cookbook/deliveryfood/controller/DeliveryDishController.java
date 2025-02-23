@@ -1,6 +1,7 @@
 package com.cookbook.deliveryfood.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.cookbook.deliveryfood.model.DeliveryDish;
-import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
-import com.cookbook.deliveryfood.model.exception.InvalidDishException;
-import com.cookbook.deliveryfood.model.exception.NoDishesException;
+import com.cookbook.deliveryfood.exception.DishNotFoundException;
+import com.cookbook.deliveryfood.exception.InvalidDishException;
+import com.cookbook.deliveryfood.exception.NoDishesException;
 import com.cookbook.deliveryfood.model.filter.Filter;
 import com.cookbook.deliveryfood.service.DeliveryDishService;
 
@@ -26,9 +27,12 @@ import com.cookbook.deliveryfood.service.DeliveryDishService;
 @RestController
 @RequestMapping("api/delivery_dish")
 public class DeliveryDishController {
+    private DeliveryDishService service;
 
     @Autowired
-    private DeliveryDishService service;
+    public DeliveryDishController(DeliveryDishService service){
+        this.service = service;
+    }
 
 
 
@@ -68,6 +72,12 @@ public class DeliveryDishController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/all/id_name")
+    public Map<Integer, String> getIdsAndNames(){
+        return service.getIdsAndNames();
+    }
+    
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/delete/{id}")
     public void deleteDish(@PathVariable int id){
         try{
@@ -91,7 +101,7 @@ public class DeliveryDishController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/get/filter")
-    public List<DeliveryDish> getByFilter(@RequestBody Filter filter){
+    public Map<Integer, String> getByFilter(@RequestBody Filter filter){
         return service.getByFilter(filter);
     }
 
@@ -114,7 +124,7 @@ public class DeliveryDishController {
             DeliveryDish dish = service.getRandomFiltered(filter);
             return dish;
         }
-        catch(NoDishesException e){
+        catch(NoDishesException | DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

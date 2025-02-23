@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
 import com.cookbook.homedishes.exception.DishNotFoundException;
+import com.cookbook.homedishes.exception.IllegalDishException;
 import com.cookbook.homedishes.exception.IllegalFilterException;
 import com.cookbook.homedishes.model.HomeDish;
 import com.cookbook.homedishes.model.filter.Filter;
@@ -111,10 +112,10 @@ public class HomeDishController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/random")
-    public Map<String, String> getRandomDish(){
+    public HomeDish getRandomDish(){
         try{
-            Map<String, String> id_name = service.getRandomDish();
-            return id_name;
+            HomeDish dish = service.getRandomDish();
+            return dish;
         }
         catch(DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
@@ -123,12 +124,12 @@ public class HomeDishController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/random/filter")
-    public Map<String, String> getRandomFilteredDish(@RequestBody Filter filter){
+    public HomeDish getRandomFilteredDish(@RequestBody Filter filter){
         try{
-            Map<String, String> id_name = service.getRandomWithFilter(filter);
-            return id_name;
+            HomeDish dish = service.getRandomWithFilter(filter);
+            return dish;
         }
-        catch(IllegalFilterException | DishNotFoundException e){
+        catch(IllegalFilterException | DishNotFoundException | IllegalDishException e){
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
         }
     }

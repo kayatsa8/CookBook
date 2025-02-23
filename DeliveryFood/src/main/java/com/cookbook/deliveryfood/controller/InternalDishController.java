@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.cookbook.deliveryfood.model.enums.DishType;
 import com.cookbook.deliveryfood.model.enums.Flavors;
-import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
+import com.cookbook.deliveryfood.exception.DishNotFoundException;
 import com.cookbook.deliveryfood.service.InternalDishService;
 
 @RestController

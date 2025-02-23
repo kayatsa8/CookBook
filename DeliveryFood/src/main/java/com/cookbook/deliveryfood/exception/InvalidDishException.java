@@ -1,4 +1,4 @@
-package com.cookbook.deliveryfood.model.exception;
+package com.cookbook.deliveryfood.exception;
 
 public class InvalidDishException extends Exception{
 

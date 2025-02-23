@@ -1,25 +1,32 @@
 package com.cookbook.deliveryfood.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cookbook.deliveryfood.model.DTO;
 import com.cookbook.deliveryfood.model.DeliveryDish;
-import com.cookbook.deliveryfood.model.exception.DishNotFoundException;
-import com.cookbook.deliveryfood.model.exception.InvalidDishException;
-import com.cookbook.deliveryfood.model.exception.NoDishesException;
+import com.cookbook.deliveryfood.exception.DishNotFoundException;
+import com.cookbook.deliveryfood.exception.InvalidDishException;
+import com.cookbook.deliveryfood.exception.NoDishesException;
 import com.cookbook.deliveryfood.model.filter.Filter;
 import com.cookbook.deliveryfood.repository.DeliveryDishRepository;
 
 @Service
 public class DeliveryDishService {
+    private DeliveryDishRepository repo;
 
     @Autowired
-    private DeliveryDishRepository repo;
+    public DeliveryDishService(DeliveryDishRepository repository){
+        this.repo = repository;
+    }
+
 
 
     public void addDish(DeliveryDish dish) throws InvalidDishException{
@@ -47,6 +54,17 @@ public class DeliveryDishService {
         return dishes;
     }
 
+    public Map<Integer, String> getIdsAndNames(){
+        List<DTO> dtos = repo.getIdsAndNames();
+        Map<Integer, String> ids_names = new HashMap<>();
+
+        for(DTO dto : dtos){
+            ids_names.put(dto.getId(), dto.getName());
+        }
+
+        return ids_names;
+    }
+
     public void deleteDish(int id) throws DishNotFoundException{
         if(!repo.existsById(id)){
             throw new DishNotFoundException();
@@ -71,8 +89,15 @@ public class DeliveryDishService {
         repo.save(dish);
     }
 
-    public List<DeliveryDish> getByFilter(Filter filter){
-        return repo.getByFilter(filter);
+    public Map<Integer, String> getByFilter(Filter filter){
+        List<DeliveryDish> dishes =  repo.getByFilter(filter);
+        Map<Integer, String> ids_names = new HashMap<>(dishes.size());
+
+        for(DeliveryDish dish : dishes){
+            ids_names.put(dish.getId(), dish.getName());
+        }
+
+        return ids_names;
     }
 
     public DeliveryDish getRandomDish() throws NoDishesException {
@@ -88,17 +113,20 @@ public class DeliveryDishService {
         return repo.findById(ids.get(index)).get();
     }
 
-    public DeliveryDish getRandomFiltered(Filter filter) throws NoDishesException {
-        List<DeliveryDish> dishes = getByFilter(filter);
+    public DeliveryDish getRandomFiltered(Filter filter) throws NoDishesException, DishNotFoundException {
+        Map<Integer, String> dishes = getByFilter(filter);
 
         if(dishes.isEmpty()){
             throw new NoDishesException();
         }
 
         Random r = new Random();
-        int index = r.nextInt(dishes.size());
+        List<Integer> ids = new ArrayList<>(dishes.keySet());
 
-        return dishes.get(index);
+        int index = r.nextInt(ids.size());
+        DeliveryDish dish = getDish(ids.get(index));
+
+        return dish;
     }
 
 
