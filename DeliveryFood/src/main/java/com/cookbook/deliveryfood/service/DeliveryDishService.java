@@ -113,17 +113,20 @@ public class DeliveryDishService {
         return repo.findById(ids.get(index)).get();
     }
 
-    public DeliveryDish getRandomFiltered(Filter filter) throws NoDishesException {
-        List<DeliveryDish> dishes = getByFilter(filter);
+    public DeliveryDish getRandomFiltered(Filter filter) throws NoDishesException, DishNotFoundException {
+        Map<Integer, String> dishes = getByFilter(filter);
 
         if(dishes.isEmpty()){
             throw new NoDishesException();
         }
 
         Random r = new Random();
-        int index = r.nextInt(dishes.size());
+        List<Integer> ids = new ArrayList<>(dishes.keySet());
 
-        return dishes.get(index);
+        int index = r.nextInt(ids.size());
+        DeliveryDish dish = getDish(ids.get(index));
+
+        return dish;
     }
 
 
