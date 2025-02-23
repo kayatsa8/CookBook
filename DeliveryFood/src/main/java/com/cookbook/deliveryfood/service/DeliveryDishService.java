@@ -89,8 +89,15 @@ public class DeliveryDishService {
         repo.save(dish);
     }
 
-    public List<DeliveryDish> getByFilter(Filter filter){
-        return repo.getByFilter(filter);
+    public Map<Integer, String> getByFilter(Filter filter){
+        List<DeliveryDish> dishes =  repo.getByFilter(filter);
+        Map<Integer, String> ids_names = new HashMap<>(dishes.size());
+
+        for(DeliveryDish dish : dishes){
+            ids_names.put(dish.getId(), dish.getName());
+        }
+
+        return ids_names;
     }
 
     public DeliveryDish getRandomDish() throws NoDishesException {
