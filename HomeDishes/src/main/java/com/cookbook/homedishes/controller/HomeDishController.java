@@ -111,10 +111,10 @@ public class HomeDishController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/random")
-    public Map<String, String> getRandomDish(){
+    public HomeDish getRandomDish(){
         try{
-            Map<String, String> id_name = service.getRandomDish();
-            return id_name;
+            HomeDish dish = service.getRandomDish();
+            return dish;
         }
         catch(DishNotFoundException e){
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
