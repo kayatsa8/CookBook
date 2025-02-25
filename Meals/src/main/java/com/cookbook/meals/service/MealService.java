@@ -198,9 +198,12 @@ public class MealService {
     }
 
     private Set<MealType> getMealTypes(Meal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+        List<Integer> deliveryIds = meal.getDeliveryDishesIds() != null ? meal.getDeliveryDishesIds() : new ArrayList<>();
+
         Set<MealType> types = webClient.post()
                                        .uri("http://localhost:8080/internal/types")
-                                       .bodyValue(meal.getHomeDishesIds())
+                                       .bodyValue(homeIds)
                                        .retrieve()
                                        .bodyToMono(new ParameterizedTypeReference<Set<MealType>>() {})
                                        .timeout(Duration.ofSeconds(10))
@@ -210,7 +213,7 @@ public class MealService {
 
         Set<MealType> temp = webClient.post()
                                       .uri("http://localhost:8081/internal/types")
-                                      .bodyValue(meal.getDeliveryDishesIds())
+                                      .bodyValue(deliveryIds)
                                       .retrieve()
                                       .bodyToMono(new ParameterizedTypeReference<Set<MealType>>() {})
                                       .timeout(Duration.ofSeconds(10))
@@ -230,9 +233,11 @@ public class MealService {
     }
 
     private void putMealDifficulty(DetailedMeal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+
         Difficulty difficulty = webClient.post()
                                          .uri("http://localhost:8080/internal/difficulty")
-                                         .bodyValue(meal.getHomeDishesIds())
+                                         .bodyValue(homeIds)
                                          .retrieve()
                                          .bodyToMono(new ParameterizedTypeReference<Difficulty>() {})
                                          .timeout(Duration.ofSeconds(10))
@@ -244,9 +249,12 @@ public class MealService {
     }
 
     private void putMealRating(DetailedMeal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+        List<Integer> deliveryIds = meal.getDeliveryDishesIds() != null ? meal.getDeliveryDishesIds() : new ArrayList<>();
+
         int sum = webClient.post()
                            .uri("http://localhost:8080/internal/rating_sum")
-                           .bodyValue(meal.getHomeDishesIds())
+                           .bodyValue(homeIds)
                            .retrieve()
                            .bodyToMono(new ParameterizedTypeReference<Integer>() {})
                            .timeout(Duration.ofSeconds(10))
@@ -256,7 +264,7 @@ public class MealService {
 
         sum += webClient.post()
                         .uri("http://localhost:8081/internal/rating_sum")
-                        .bodyValue(meal.getDeliveryDishesIds())
+                        .bodyValue(deliveryIds)
                         .retrieve()
                         .bodyToMono(new ParameterizedTypeReference<Integer>() {})
                         .timeout(Duration.ofSeconds(10))
@@ -270,9 +278,12 @@ public class MealService {
     }
 
     private void putDishesNames(DetailedMeal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+        List<Integer> deliveryIds = meal.getDeliveryDishesIds() != null ? meal.getDeliveryDishesIds() : new ArrayList<>();
+
         List<String> homeDishes = webClient.post()
                                            .uri("http://localhost:8080/internal/names")
-                                           .bodyValue(meal.getHomeDishesIds())
+                                           .bodyValue(homeIds)
                                            .retrieve()
                                            .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                                            .timeout(Duration.ofSeconds(10))
@@ -282,7 +293,7 @@ public class MealService {
 
         List<String> deliveryDishes = webClient.post()
                                                .uri("http://localhost:8081/internal/names")
-                                               .bodyValue(meal.getDeliveryDishesIds())
+                                               .bodyValue(deliveryIds)
                                                .retrieve()
                                                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                                                .timeout(Duration.ofSeconds(10))
@@ -295,9 +306,11 @@ public class MealService {
     }
 
     private void putMealIngredients(DetailedMeal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+
         List<String> ingredients = webClient.post()
                                            .uri("http://localhost:8080/internal/ingredients")
-                                           .bodyValue(meal.getHomeDishesIds())
+                                           .bodyValue(homeIds)
                                            .retrieve()
                                            .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                                            .timeout(Duration.ofSeconds(10))
@@ -309,9 +322,12 @@ public class MealService {
     }
 
     private void putMealFlavors(DetailedMeal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+        List<Integer> deliveryIds = meal.getDeliveryDishesIds() != null ? meal.getDeliveryDishesIds() : new ArrayList<>();
+
         List<Flavors> homeFlavors = webClient.post()
                                            .uri("http://localhost:8080/internal/flavors")
-                                           .bodyValue(meal.getHomeDishesIds())
+                                           .bodyValue(homeIds)
                                            .retrieve()
                                            .bodyToMono(new ParameterizedTypeReference<List<Flavors>>() {})
                                            .timeout(Duration.ofSeconds(10))
@@ -321,7 +337,7 @@ public class MealService {
 
         List<Flavors> deliveryFlavors = webClient.post()
                                            .uri("http://localhost:8081/internal/flavors")
-                                           .bodyValue(meal.getDeliveryDishesIds())
+                                           .bodyValue(deliveryIds)
                                            .retrieve()
                                            .bodyToMono(new ParameterizedTypeReference<List<Flavors>>() {})
                                            .timeout(Duration.ofSeconds(10))
@@ -339,10 +355,6 @@ public class MealService {
     private void validateUpdateMeal(Meal meal) throws IllegalMealException{
         if(meal.getName() != null && meal.getName().isBlank()){
             throw new IllegalMealException("name cannot be empty");
-        }
-
-        if(meal.getDiners() != null && meal.getDiners() < 0){
-            throw new IllegalMealException("diners cannot be a negative number");
         }
 
         if(meal.getDiners() != null && meal.getDiners() < 0){
