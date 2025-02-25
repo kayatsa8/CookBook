@@ -156,8 +156,8 @@ public class MealService {
 
         Set<MealType> types = getMealTypes(meal);
 
-        if(types.contains(MealType.MEAT) && types.contains(MealType.MILK)){
-            throw new IllegalMealException("a meal cannot contain both milk and meat");
+        if(types.contains(MealType.MEAT) && types.contains(MealType.DAIRY)){
+            throw new IllegalMealException("a meal cannot contain both dairy and meat");
         }
     }
 
@@ -387,8 +387,8 @@ public class MealService {
 
         Set<MealType> types = getMealTypes(meal);
 
-        if(types.contains(MealType.MEAT) && types.contains(MealType.MILK)){
-            throw new IllegalMealException("a meal cannot contain both milk and meat");
+        if(types.contains(MealType.MEAT) && types.contains(MealType.DAIRY)){
+            throw new IllegalMealException("a meal cannot contain both dairy and meat");
         }
 
         if(meal.getUserRating() != null && (meal.getUserRating() < 0 || meal.getUserRating() > 5)){
