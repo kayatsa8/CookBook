@@ -461,16 +461,20 @@ public class MealService {
     }
 
     public DetailedMeal getRandomFilteredMeal(Filter filter) throws IllegalMealException, MealNotFoundException{
-        List<DetailedMeal> meals = getFilteredMeal(filter);
+        Map<String, String> meals = getFilteredMeal(filter);
 
         if(meals.isEmpty()){
             throw new MealNotFoundException();
         }
 
-        Random r = new Random();
-        int index = r.nextInt(meals.size());
+        List<String> ids = new ArrayList<>(meals.keySet());
 
-        return meals.get(index);
+        Random r = new Random();
+        int index = r.nextInt(ids.size());
+
+        DetailedMeal meal = getMeal(ids.get(index));
+
+        return meal;
     }
 
 
