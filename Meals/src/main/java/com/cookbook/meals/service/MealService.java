@@ -411,9 +411,9 @@ public class MealService {
         return getMeal(id);
     }
 
-    public List<DetailedMeal> getFilteredMeal(Filter filter) throws IllegalMealException{
+    public Map<String, String> getFilteredMeal(Filter filter) throws IllegalMealException{
         List<Meal> firstFilter = repo.findByFilter(filter);
-        List<DetailedMeal> secondFilter = new ArrayList<>();
+        Map<String, String> id_name = new HashMap<>();
         DetailedMeal detailed;
         boolean toInsert;
 
@@ -453,27 +453,11 @@ public class MealService {
             }
 
             if(toInsert){
-                if(detailed.getIngredients() == null){
-                    putMealIngredients(detailed);
-                }
-                if(detailed.getFlavors() == null){
-                    putMealFlavors(detailed);
-                }
-                if(detailed.getType() == null){
-                    putTypesInMeal(detailed);
-                }
-                if(detailed.getDifficulty() == null){
-                    putMealDifficulty(detailed);
-                }
-                if(detailed.getAverageDishRating() == null){
-                    putMealRating(detailed);
-                }
-
-                secondFilter.add(detailed);
+                id_name.put(meal.getId(), meal.getName());
             }
         }
 
-        return secondFilter;
+        return id_name;
     }
 
     public DetailedMeal getRandomFilteredMeal(Filter filter) throws IllegalMealException, MealNotFoundException{
