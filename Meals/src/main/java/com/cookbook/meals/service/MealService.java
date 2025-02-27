@@ -156,8 +156,8 @@ public class MealService {
 
         Set<MealType> types = getMealTypes(meal);
 
-        if(types.contains(MealType.MEAT) && types.contains(MealType.MILK)){
-            throw new IllegalMealException("a meal cannot contain both milk and meat");
+        if(types.contains(MealType.MEAT) && types.contains(MealType.DAIRY)){
+            throw new IllegalMealException("a meal cannot contain both dairy and meat");
         }
     }
 
@@ -198,9 +198,12 @@ public class MealService {
     }
 
     private Set<MealType> getMealTypes(Meal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+        List<Integer> deliveryIds = meal.getDeliveryDishesIds() != null ? meal.getDeliveryDishesIds() : new ArrayList<>();
+
         Set<MealType> types = webClient.post()
                                        .uri("http://localhost:8080/internal/types")
-                                       .bodyValue(meal.getHomeDishesIds())
+                                       .bodyValue(homeIds)
                                        .retrieve()
                                        .bodyToMono(new ParameterizedTypeReference<Set<MealType>>() {})
                                        .timeout(Duration.ofSeconds(10))
@@ -210,7 +213,7 @@ public class MealService {
 
         Set<MealType> temp = webClient.post()
                                       .uri("http://localhost:8081/internal/types")
-                                      .bodyValue(meal.getDeliveryDishesIds())
+                                      .bodyValue(deliveryIds)
                                       .retrieve()
                                       .bodyToMono(new ParameterizedTypeReference<Set<MealType>>() {})
                                       .timeout(Duration.ofSeconds(10))
@@ -230,9 +233,11 @@ public class MealService {
     }
 
     private void putMealDifficulty(DetailedMeal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+
         Difficulty difficulty = webClient.post()
                                          .uri("http://localhost:8080/internal/difficulty")
-                                         .bodyValue(meal.getHomeDishesIds())
+                                         .bodyValue(homeIds)
                                          .retrieve()
                                          .bodyToMono(new ParameterizedTypeReference<Difficulty>() {})
                                          .timeout(Duration.ofSeconds(10))
@@ -244,9 +249,12 @@ public class MealService {
     }
 
     private void putMealRating(DetailedMeal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+        List<Integer> deliveryIds = meal.getDeliveryDishesIds() != null ? meal.getDeliveryDishesIds() : new ArrayList<>();
+
         int sum = webClient.post()
                            .uri("http://localhost:8080/internal/rating_sum")
-                           .bodyValue(meal.getHomeDishesIds())
+                           .bodyValue(homeIds)
                            .retrieve()
                            .bodyToMono(new ParameterizedTypeReference<Integer>() {})
                            .timeout(Duration.ofSeconds(10))
@@ -256,7 +264,7 @@ public class MealService {
 
         sum += webClient.post()
                         .uri("http://localhost:8081/internal/rating_sum")
-                        .bodyValue(meal.getDeliveryDishesIds())
+                        .bodyValue(deliveryIds)
                         .retrieve()
                         .bodyToMono(new ParameterizedTypeReference<Integer>() {})
                         .timeout(Duration.ofSeconds(10))
@@ -270,9 +278,12 @@ public class MealService {
     }
 
     private void putDishesNames(DetailedMeal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+        List<Integer> deliveryIds = meal.getDeliveryDishesIds() != null ? meal.getDeliveryDishesIds() : new ArrayList<>();
+
         List<String> homeDishes = webClient.post()
                                            .uri("http://localhost:8080/internal/names")
-                                           .bodyValue(meal.getHomeDishesIds())
+                                           .bodyValue(homeIds)
                                            .retrieve()
                                            .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                                            .timeout(Duration.ofSeconds(10))
@@ -282,7 +293,7 @@ public class MealService {
 
         List<String> deliveryDishes = webClient.post()
                                                .uri("http://localhost:8081/internal/names")
-                                               .bodyValue(meal.getDeliveryDishesIds())
+                                               .bodyValue(deliveryIds)
                                                .retrieve()
                                                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                                                .timeout(Duration.ofSeconds(10))
@@ -295,9 +306,11 @@ public class MealService {
     }
 
     private void putMealIngredients(DetailedMeal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+
         List<String> ingredients = webClient.post()
                                            .uri("http://localhost:8080/internal/ingredients")
-                                           .bodyValue(meal.getHomeDishesIds())
+                                           .bodyValue(homeIds)
                                            .retrieve()
                                            .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                                            .timeout(Duration.ofSeconds(10))
@@ -309,9 +322,12 @@ public class MealService {
     }
 
     private void putMealFlavors(DetailedMeal meal){
+        List<String> homeIds = meal.getHomeDishesIds() != null ? meal.getHomeDishesIds() : new ArrayList<>();
+        List<Integer> deliveryIds = meal.getDeliveryDishesIds() != null ? meal.getDeliveryDishesIds() : new ArrayList<>();
+
         List<Flavors> homeFlavors = webClient.post()
                                            .uri("http://localhost:8080/internal/flavors")
-                                           .bodyValue(meal.getHomeDishesIds())
+                                           .bodyValue(homeIds)
                                            .retrieve()
                                            .bodyToMono(new ParameterizedTypeReference<List<Flavors>>() {})
                                            .timeout(Duration.ofSeconds(10))
@@ -321,7 +337,7 @@ public class MealService {
 
         List<Flavors> deliveryFlavors = webClient.post()
                                            .uri("http://localhost:8081/internal/flavors")
-                                           .bodyValue(meal.getDeliveryDishesIds())
+                                           .bodyValue(deliveryIds)
                                            .retrieve()
                                            .bodyToMono(new ParameterizedTypeReference<List<Flavors>>() {})
                                            .timeout(Duration.ofSeconds(10))
@@ -339,10 +355,6 @@ public class MealService {
     private void validateUpdateMeal(Meal meal) throws IllegalMealException{
         if(meal.getName() != null && meal.getName().isBlank()){
             throw new IllegalMealException("name cannot be empty");
-        }
-
-        if(meal.getDiners() != null && meal.getDiners() < 0){
-            throw new IllegalMealException("diners cannot be a negative number");
         }
 
         if(meal.getDiners() != null && meal.getDiners() < 0){
@@ -387,8 +399,8 @@ public class MealService {
 
         Set<MealType> types = getMealTypes(meal);
 
-        if(types.contains(MealType.MEAT) && types.contains(MealType.MILK)){
-            throw new IllegalMealException("a meal cannot contain both milk and meat");
+        if(types.contains(MealType.MEAT) && types.contains(MealType.DAIRY)){
+            throw new IllegalMealException("a meal cannot contain both dairy and meat");
         }
 
         if(meal.getUserRating() != null && (meal.getUserRating() < 0 || meal.getUserRating() > 5)){
@@ -411,9 +423,9 @@ public class MealService {
         return getMeal(id);
     }
 
-    public List<DetailedMeal> getFilteredMeal(Filter filter) throws IllegalMealException{
+    public Map<String, String> getFilteredMeal(Filter filter) throws IllegalMealException{
         List<Meal> firstFilter = repo.findByFilter(filter);
-        List<DetailedMeal> secondFilter = new ArrayList<>();
+        Map<String, String> id_name = new HashMap<>();
         DetailedMeal detailed;
         boolean toInsert;
 
@@ -453,40 +465,28 @@ public class MealService {
             }
 
             if(toInsert){
-                if(detailed.getIngredients() == null){
-                    putMealIngredients(detailed);
-                }
-                if(detailed.getFlavors() == null){
-                    putMealFlavors(detailed);
-                }
-                if(detailed.getType() == null){
-                    putTypesInMeal(detailed);
-                }
-                if(detailed.getDifficulty() == null){
-                    putMealDifficulty(detailed);
-                }
-                if(detailed.getAverageDishRating() == null){
-                    putMealRating(detailed);
-                }
-
-                secondFilter.add(detailed);
+                id_name.put(meal.getId(), meal.getName());
             }
         }
 
-        return secondFilter;
+        return id_name;
     }
 
     public DetailedMeal getRandomFilteredMeal(Filter filter) throws IllegalMealException, MealNotFoundException{
-        List<DetailedMeal> meals = getFilteredMeal(filter);
+        Map<String, String> meals = getFilteredMeal(filter);
 
         if(meals.isEmpty()){
             throw new MealNotFoundException();
         }
 
-        Random r = new Random();
-        int index = r.nextInt(meals.size());
+        List<String> ids = new ArrayList<>(meals.keySet());
 
-        return meals.get(index);
+        Random r = new Random();
+        int index = r.nextInt(ids.size());
+
+        DetailedMeal meal = getMeal(ids.get(index));
+
+        return meal;
     }
 
 
