@@ -1,13 +1,13 @@
-package com.cookbook.meatgenerator;
+package com.cookbook.mealgenerator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MeatgeneratorApplication {
+public class MealgeneratorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MeatgeneratorApplication.class, args);
+		SpringApplication.run(MealgeneratorApplication.class, args);
 	}
 
 }
