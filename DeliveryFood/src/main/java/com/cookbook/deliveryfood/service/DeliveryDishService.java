@@ -140,14 +140,22 @@ public class DeliveryDishService {
     }
 
     public DeliveryDish getRandomDish() throws NoDishesException {
+        logger.info("DeliveryDishService::getRandomDish: trying to get a random dish");
+
+        logger.info("DeliveryDishService::getRandomDish: fetching dishes ids");
         List<Integer> ids = repo.getIds();
+        logger.info("DeliveryDishService::getRandomDish: dishes ids fetched");
 
         if(ids.size() == 0){
+            logger.warn("DeliveryDishService::getRandomDish: no dishes in the system");
+
             throw new NoDishesException();
         }
 
         Random r = new Random();
         int index = r.nextInt(ids.size());
+
+        logger.info("DeliveryDishService::getRandomDish: returning a dish with id " + ids.get(index));
 
         return repo.findById(ids.get(index)).get();
     }
