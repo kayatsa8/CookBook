@@ -189,42 +189,63 @@ public class DeliveryDishService {
 
 
     private void validateAddDish(DeliveryDish dish) throws InvalidDishException{
+        logger.info("DeliveryDishService::validateAddDish: validating addDish");
+
         if(dish.getId() != null){
+            logger.error("DeliveryDishService::validateAddDish: the given dish has the id + " + dish.getId());
+
             throw new InvalidDishException("the dish has an id");
         }
 
         if(dish.getName() == null || dish.getName().isBlank()){
+            logger.error("DeliveryDishService::validateAddDish: name was not provided");
+
             throw new InvalidDishException("name not provided");
         }
 
         if(dish.getPrice() == null || dish.getPrice() < 0){
+            logger.error("DeliveryDishService::validateAddDish: empty or negative price");
+
             throw new InvalidDishException("empty or negative price");
         }
 
         if(dish.getRestaurant() == null || dish.getRestaurant().isBlank()){
+            logger.error("DeliveryDishService::validateAddDish: restaurant was not provided");
+
             throw new InvalidDishException("restaurant not provided");
         }
 
         if(dish.getDeliveryPlatform() == null || dish.getDeliveryPlatform().isBlank()){
+            logger.error("DeliveryDishService::validateAddDish: delivery platform was not provided");
+
             throw new InvalidDishException("delivery platform not provided");
         }
 
         if(dish.getRating() == null || dish.getRating() < 0 || dish.getRating() > 5){
+            logger.error("DeliveryDishService::validateAddDish: invalid rating - " + dish.getRating());
+
             throw new InvalidDishException("invalid rating");
         }
 
         if(dish.getType() == null){
+            logger.error("DeliveryDishService::validateAddDish: dish type was not provided");
+
             throw new InvalidDishException("dish type not provided");
         }
 
         if(dish.getFlavors() == null){
+            logger.error("DeliveryDishService::validateAddDish: flavors were not provided");
+
             throw new InvalidDishException("flavors not provided");
         }
 
         if(dish.getMealPart() == null){
+            logger.error("DeliveryDishService::validateAddDish: meal part was not provided");
+
             throw new InvalidDishException("meal part not provided");
         }
 
+        logger.error("DeliveryDishService::validateAddDish: the dish was validated successfully");
     }
 
     private void validateupdateDish(DeliveryDish updated) throws InvalidDishException{
