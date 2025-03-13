@@ -72,6 +72,8 @@ public class InternalDishService {
     }
 
     public int getRatingSum(List<Integer> ids) throws DishNotFoundException{
+        logger.info("InternalDishService::getRatingSum: summing ratings");
+
         int sum = 0;
         int rating;
 
@@ -81,12 +83,16 @@ public class InternalDishService {
 
         for(int id : ids){
             if(!repo.existsById(id)){
+                logger.warn("InternalDishService::getRatingSum: a dish with id {id} was not found", id);
+
                 throw new DishNotFoundException();
             }
 
             rating = repo.getDishRating(id);
             sum += rating;
         }
+
+        logger.info("InternalDishService::getRatingSum: returning the sum of ratings");
 
         return sum;
     }
