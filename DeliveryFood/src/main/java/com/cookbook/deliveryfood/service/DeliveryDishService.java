@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ import com.cookbook.deliveryfood.repository.DeliveryDishRepository;
 @Service
 public class DeliveryDishService {
     private DeliveryDishRepository repo;
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public DeliveryDishService(DeliveryDishRepository repository){
@@ -30,9 +33,14 @@ public class DeliveryDishService {
 
 
     public void addDish(DeliveryDish dish) throws InvalidDishException{
+        logger.info("DeliveryDishService::addDish: trying to add a dish");
+
         validateAddDish(dish);
 
+        
         repo.save(dish);
+        
+        logger.info("DeliveryDishService::addDish: a dish was added successfully");
     }
 
     public DeliveryDish getDish(int id) throws DishNotFoundException{
