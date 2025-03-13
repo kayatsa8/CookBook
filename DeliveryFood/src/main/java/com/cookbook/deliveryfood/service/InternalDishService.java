@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import com.cookbook.deliveryfood.repository.DeliveryDishRepository;
 @Service
 public class InternalDishService {
     private final DeliveryDishRepository repo;
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
 
     @Autowired
@@ -28,6 +31,8 @@ public class InternalDishService {
     }
 
     public List<Integer> checkDishList(List<Integer> ids){
+        logger.info("checking existence of dishes by id");
+
         List<Integer> badIds = new ArrayList<>();
 
         for(int id : ids){
@@ -40,15 +45,20 @@ public class InternalDishService {
     }
 
     public Set<DishType> getTypes(List<Integer> ids) throws DishNotFoundException{
+        logger.info("collecting dishes types");
+
         Set<DishType> types = new HashSet<>();
         DishType type;
 
         if(ids == null){
+            logger.warn("the ids list is null");
             return types;
         }
 
         for(int id : ids){
             if(!repo.existsById(id)){
+                logger.warn("a dish with id {} was not found", id);
+
                 throw new DishNotFoundException();
             }
 
@@ -56,10 +66,14 @@ public class InternalDishService {
             types.add(type);
         }
 
+        logger.info("returning types");
+
         return types;
     }
 
     public int getRatingSum(List<Integer> ids) throws DishNotFoundException{
+        logger.info("summing ratings");
+
         int sum = 0;
         int rating;
 
@@ -69,6 +83,8 @@ public class InternalDishService {
 
         for(int id : ids){
             if(!repo.existsById(id)){
+                logger.warn("a dish with id {} was not found", id);
+
                 throw new DishNotFoundException();
             }
 
@@ -76,15 +92,21 @@ public class InternalDishService {
             sum += rating;
         }
 
+        logger.info("returning the sum of ratings");
+
         return sum;
     }
 
     public List<String> getDishNames(List<Integer> ids) throws DishNotFoundException{
+        logger.info("fetching dishes names");
+
         List<String> names = new ArrayList<>(ids.size());
         String name;
 
         for(int id : ids){
             if(!repo.existsById(id)){
+                logger.warn("a dish with id {} was not found", id);
+
                 throw new DishNotFoundException();
             }
 
@@ -92,21 +114,29 @@ public class InternalDishService {
             names.add(name);
         }
 
+        logger.info("returning dish names");
+
         return names;
     }
     
     public List<Flavors> getDishesFlavors(List<Integer> ids) throws DishNotFoundException{
+        logger.info("collecting dish flavors");
+
         Set<Flavors> flavors = new HashSet<>();
         List<Flavors> f;
 
         for(int id : ids){
             if(!repo.existsById(id)){
+                logger.warn("a dish with id {} was not found", id);
+
                 throw new DishNotFoundException();
             }
 
             f = repo.getDishFlavors(id).get(0);
             flavors.addAll(f);
         }
+
+        logger.info("returning dish flavors");
 
         return new ArrayList<>(flavors);
     }

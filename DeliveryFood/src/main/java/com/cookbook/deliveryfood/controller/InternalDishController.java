@@ -3,6 +3,8 @@ package com.cookbook.deliveryfood.controller;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,7 @@ import com.cookbook.deliveryfood.service.InternalDishService;
 @RequestMapping("/internal")
 public class InternalDishController {
     private final InternalDishService service;
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
 
     @Autowired
@@ -33,18 +36,23 @@ public class InternalDishController {
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/check_dish/{id}")
     public boolean isDishExists(@PathVariable int id){
+        logger.info("dish exists request");
+
         return service.isDishExists(id);
     }
 
     @ResponseStatus(HttpStatus.FOUND)
     @PostMapping("/check_dish_list")
     public List<Integer> dishesExist(@RequestBody List<Integer> ids){
+        logger.info("dishes exist request");
         return service.checkDishList(ids);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/types")
     public Set<DishType> getDishTypes(@RequestBody List<Integer> ids){
+        logger.info("dish types request");
+
         try{
             Set<DishType> types = service.getTypes(ids);
             return types;
@@ -57,6 +65,8 @@ public class InternalDishController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/rating_sum")
     public int getRatingSum(@RequestBody List<Integer> ids){
+        logger.info("rating sum request");
+
         try{
             int sum = service.getRatingSum(ids);
 
@@ -70,6 +80,8 @@ public class InternalDishController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/names")
     public List<String> getDishNames(@RequestBody List<Integer> ids){
+        logger.info("dishes names request");
+
         try{
             List<String> names = service.getDishNames(ids);
             return names;
@@ -82,6 +94,8 @@ public class InternalDishController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/flavors")
     public List<Flavors> getDishesFlavors(@RequestBody List<Integer> ids){
+        logger.info("dishes flavors request");
+
         try{
             List<Flavors> flavros = service.getDishesFlavors(ids);
             return flavros;
