@@ -72,12 +72,16 @@ public class DeliveryDishService {
     }
 
     public Map<Integer, String> getIdsAndNames(){
+        logger.info("DeliveryDishService::getIdsAndNames: fetching all dishes");
+
         List<DTO> dtos = repo.getIdsAndNames();
         Map<Integer, String> ids_names = new HashMap<>();
 
         for(DTO dto : dtos){
             ids_names.put(dto.getId(), dto.getName());
         }
+
+        logger.info("DeliveryDishService::getIdsAndNames: returning ids and names");
 
         return ids_names;
     }
