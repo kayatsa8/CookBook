@@ -161,9 +161,15 @@ public class DeliveryDishService {
     }
 
     public DeliveryDish getRandomFiltered(Filter filter) throws NoDishesException, DishNotFoundException {
+        logger.info("DeliveryDishService::getRandomFiltered: trying to fetch a dish");
+
+        logger.info("DeliveryDishService::getRandomFiltered: fetching dishes by filter");
         Map<Integer, String> dishes = getByFilter(filter);
+        logger.info("DeliveryDishService::getRandomFiltered: dishes were fetched according to filter");
 
         if(dishes.isEmpty()){
+            logger.warn("DeliveryDishService::getRandomFiltered: no dishes fitting to the filter were found");
+
             throw new NoDishesException();
         }
 
@@ -173,6 +179,8 @@ public class DeliveryDishService {
         int index = r.nextInt(ids.size());
         DeliveryDish dish = getDish(ids.get(index));
 
+        logger.info("DeliveryDishService::getRandomFiltered: returning the dish with id " + ids.get(index));
+        
         return dish;
     }
 
