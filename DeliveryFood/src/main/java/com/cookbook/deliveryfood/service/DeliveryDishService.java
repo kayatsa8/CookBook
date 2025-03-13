@@ -44,12 +44,17 @@ public class DeliveryDishService {
     }
 
     public DeliveryDish getDish(int id) throws DishNotFoundException{
+        logger.info("DeliveryDishService::getDish: searching for a dish with id " + id);
+
         Optional<DeliveryDish> oDish = repo.findById(id);
 
         if(oDish.isEmpty()){
+            logger.warn("DeliveryDishService::getDish: a dish with id " + id + " was not found");
+
             throw new DishNotFoundException();
         }
 
+        logger.info("DeliveryDishService::getDish: returning the dish with id " + id);
         return oDish.get();
     }
 
