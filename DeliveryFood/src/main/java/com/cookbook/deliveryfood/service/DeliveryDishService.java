@@ -103,7 +103,7 @@ public class DeliveryDishService {
     public void updateDish(DeliveryDish updated) throws InvalidDishException{
         logger.info("DeliveryDishService::updateDish: trying to update a dish");
 
-        validateupdateDish(updated);
+        validateUpdateDish(updated);
 
         Optional<DeliveryDish> oDish = repo.findById(updated.getId());
 
@@ -248,27 +248,40 @@ public class DeliveryDishService {
         logger.info("DeliveryDishService::validateAddDish: the dish was validated successfully");
     }
 
-    private void validateupdateDish(DeliveryDish updated) throws InvalidDishException{
+    private void validateUpdateDish(DeliveryDish updated) throws InvalidDishException{
+        logger.info("DeliveryDishService::validateupdateDish: validating updateDish");
+
         if(updated.getId() == null){
+            logger.error("DeliveryDishService::validateupdateDish: no id was provided");
+
             throw new InvalidDishException("no id");
         }
 
         if(updated.getName() != null && updated.getName().isBlank()){
+            logger.error("DeliveryDishService::validateupdateDish: invalid name");
+
             throw new InvalidDishException("invalid name");
         }
 
         if(updated.getRestaurant() != null && updated.getRestaurant().isBlank()){
+            logger.error("DeliveryDishService::validateupdateDish: invalid restaurant");
+
             throw new InvalidDishException("invalid restaurant");
         }
 
         if(updated.getDeliveryPlatform() != null && updated.getDeliveryPlatform().isBlank()){
+            logger.error("DeliveryDishService::validateupdateDish: invalid deliveryplatform");
+
             throw new InvalidDishException("invalid delivery platform");
         }
 
         if(updated.getRating() != null && (updated.getRating() < 0 || updated.getRating() > 5)){
+            logger.error("DeliveryDishService::validateupdateDish: invalid rating - " + updated.getRating());
+
             throw new InvalidDishException("invalid rating");
         }
 
+        logger.info("DeliveryDishService::validateupdateDish: the dish was validated");
     }
 
 
