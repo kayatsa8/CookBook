@@ -98,17 +98,23 @@ public class InternalDishService {
     }
 
     public List<String> getDishNames(List<Integer> ids) throws DishNotFoundException{
+        logger.info("InternalDishService::getDishNames: fetching dishes names");
+
         List<String> names = new ArrayList<>(ids.size());
         String name;
 
         for(int id : ids){
             if(!repo.existsById(id)){
+                logger.warn("InternalDishService::getDishNames: a dish with id {} was not found", id);
+
                 throw new DishNotFoundException();
             }
 
             name = repo.getDishName(id);
             names.add(name);
         }
+
+        logger.info("InternalDishService::getDishNames: returning dish names");
 
         return names;
     }
