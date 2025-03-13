@@ -83,7 +83,7 @@ public class InternalDishService {
 
         for(int id : ids){
             if(!repo.existsById(id)){
-                logger.warn("InternalDishService::getRatingSum: a dish with id {id} was not found", id);
+                logger.warn("InternalDishService::getRatingSum: a dish with id {} was not found", id);
 
                 throw new DishNotFoundException();
             }
@@ -120,17 +120,23 @@ public class InternalDishService {
     }
     
     public List<Flavors> getDishesFlavors(List<Integer> ids) throws DishNotFoundException{
+        logger.info("collecting dish flavors");
+
         Set<Flavors> flavors = new HashSet<>();
         List<Flavors> f;
 
         for(int id : ids){
             if(!repo.existsById(id)){
+                logger.warn("a dish with id {} was not found", id);
+
                 throw new DishNotFoundException();
             }
 
             f = repo.getDishFlavors(id).get(0);
             flavors.addAll(f);
         }
+
+        logger.info("returning dish flavors");
 
         return new ArrayList<>(flavors);
     }
