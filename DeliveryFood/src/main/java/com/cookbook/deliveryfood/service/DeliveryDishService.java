@@ -87,9 +87,15 @@ public class DeliveryDishService {
     }
 
     public void deleteDish(int id) throws DishNotFoundException{
+        logger.info("DeliveryDishService::deleteDish:: tring to delete a dish with id " + id);
+
         if(!repo.existsById(id)){
+            logger.warn("DeliveryDishService::deleteDish:: no dish with id " + id);
+
             throw new DishNotFoundException();
         }
+
+        logger.info("DeliveryDishService::deleteDish:: the dish with id " + id + " was deleted successfully");
 
         repo.deleteById(id);
     }
