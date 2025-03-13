@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import com.cookbook.deliveryfood.repository.DeliveryDishRepository;
 @Service
 public class InternalDishService {
     private final DeliveryDishRepository repo;
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
 
     @Autowired
@@ -28,6 +31,8 @@ public class InternalDishService {
     }
 
     public List<Integer> checkDishList(List<Integer> ids){
+        logger.info("InternalDishService::checkDishList: checking existence of dishes by id");
+
         List<Integer> badIds = new ArrayList<>();
 
         for(int id : ids){
@@ -40,21 +45,28 @@ public class InternalDishService {
     }
 
     public Set<DishType> getTypes(List<Integer> ids) throws DishNotFoundException{
+        logger.info("InternalDishService::getTypes: collecting dishes types");
+
         Set<DishType> types = new HashSet<>();
         DishType type;
 
         if(ids == null){
+            logger.warn("InternalDishService::getTypes: the ids list is null");
             return types;
         }
 
         for(int id : ids){
             if(!repo.existsById(id)){
+                logger.warn("InternalDishService::getTypes: a dish with id {} was not found", id);
+
                 throw new DishNotFoundException();
             }
 
             type = repo.getDishType(id);
             types.add(type);
         }
+
+        logger.info("InternalDishService::getTypes: returning types");
 
         return types;
     }
