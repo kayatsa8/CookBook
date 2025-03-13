@@ -101,19 +101,25 @@ public class DeliveryDishService {
     }
 
     public void updateDish(DeliveryDish updated) throws InvalidDishException{
+        logger.info("DeliveryDishService::updateDish: trying to update a dish");
+
         validateupdateDish(updated);
 
         Optional<DeliveryDish> oDish = repo.findById(updated.getId());
 
         if(oDish.isEmpty()){
+            logger.warn("DeliveryDishService::updateDish: a dish with id " + updated.getId() + " was not found");
+
             throw new InvalidDishException("no such dish");
         }
 
         DeliveryDish dish = oDish.get();
 
+        logger.info("DeliveryDishService::updateDish: updating the dish with id " + updated.getId());
         dish.update(updated);
 
         repo.save(dish);
+        logger.info("DeliveryDishService::updateDish: the dish with id " + updated.getId() + " was updated successfully");
     }
 
     public Map<Integer, String> getByFilter(Filter filter){
