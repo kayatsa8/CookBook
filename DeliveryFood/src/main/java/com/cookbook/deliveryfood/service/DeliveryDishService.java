@@ -245,7 +245,7 @@ public class DeliveryDishService {
             throw new InvalidDishException("meal part not provided");
         }
 
-        logger.error("DeliveryDishService::validateAddDish: the dish was validated successfully");
+        logger.info("DeliveryDishService::validateAddDish: the dish was validated successfully");
     }
 
     private void validateupdateDish(DeliveryDish updated) throws InvalidDishException{
