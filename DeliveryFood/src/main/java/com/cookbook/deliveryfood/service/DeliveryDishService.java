@@ -123,12 +123,18 @@ public class DeliveryDishService {
     }
 
     public Map<Integer, String> getByFilter(Filter filter){
+        logger.info("DeliveryDishService::getByFilter: trying to fetch dishes by filter");
+
         List<DeliveryDish> dishes =  repo.getByFilter(filter);
         Map<Integer, String> ids_names = new HashMap<>(dishes.size());
+
+        logger.info("DeliveryDishService::getByFilter: fetched dishes by filter");
 
         for(DeliveryDish dish : dishes){
             ids_names.put(dish.getId(), dish.getName());
         }
+
+        logger.info("DeliveryDishService::getByFilter: returning dishes fetched by filter");
 
         return ids_names;
     }
