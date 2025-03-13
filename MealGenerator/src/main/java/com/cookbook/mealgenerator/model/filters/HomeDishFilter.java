@@ -20,9 +20,9 @@ public class HomeDishFilter {
     private Range diners;
     private List<String> ingredients;
     private Range timeInMinutes;
-    private MealType type;
-    private Difficulty difficulty;
-    private MealPart mealPart;
+    private List<MealType> types;
+    private List<Difficulty> difficulties;
+    private List<MealPart> mealParts;
     private Range rating;    
 
 }
