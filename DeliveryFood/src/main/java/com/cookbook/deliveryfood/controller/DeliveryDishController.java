@@ -48,7 +48,7 @@ public class DeliveryDishController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
     public void addDeliveryDish(@RequestBody DeliveryDish dish){
-        logger.info("DeliveryDishController:: add dish");
+        logger.info("add dish");
 
         try{
             service.addDish(dish);
@@ -61,7 +61,7 @@ public class DeliveryDishController {
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/get/{id}")
     public DeliveryDish getDish(@PathVariable int id){
-        logger.info("DeliveryDishController:: get dish");
+        logger.info("get dish");
 
         try{
             DeliveryDish dish = service.getDish(id);
@@ -75,7 +75,7 @@ public class DeliveryDishController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/get/all")
     public List<DeliveryDish> getAllDishes(){
-        logger.info("DeliveryDishController:: get all dishes");
+        logger.info("get all dishes");
 
         return service.getAllDishes();
     }
@@ -83,7 +83,7 @@ public class DeliveryDishController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/all/id_name")
     public Map<Integer, String> getIdsAndNames(){
-        logger.info("DeliveryDishController:: get ids and names");
+        logger.info("get ids and names");
 
         return service.getIdsAndNames();
     }
@@ -91,7 +91,7 @@ public class DeliveryDishController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/delete/{id}")
     public void deleteDish(@PathVariable int id){
-        logger.info("DeliveryDishController:: delete dish");
+        logger.info("delete dish");
 
         try{
             service.deleteDish(id);
@@ -104,7 +104,7 @@ public class DeliveryDishController {
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/update")
     public void updateDish(@RequestBody DeliveryDish dish){
-        logger.info("DeliveryDishController:: update dish");
+        logger.info("update dish");
 
         try{
             service.updateDish(dish);
@@ -117,7 +117,7 @@ public class DeliveryDishController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/get/filter")
     public Map<Integer, String> getByFilter(@RequestBody Filter filter){
-        logger.info("DeliveryDishController:: get by filter");
+        logger.info("get by filter");
 
         return service.getByFilter(filter);
     }
@@ -125,7 +125,7 @@ public class DeliveryDishController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/get/random")
     public DeliveryDish getRandomDish(){
-        logger.info("DeliveryDishController:: get random dish");
+        logger.info("get random dish");
 
         try{
             DeliveryDish dish = service.getRandomDish();
@@ -139,7 +139,7 @@ public class DeliveryDishController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/get/random/filter")
     public DeliveryDish getRandomFiltered(@RequestBody Filter filter){
-        logger.info("DeliveryDishController:: get random dish by filter");
+        logger.info("get random dish by filter");
 
         try{
             DeliveryDish dish = service.getRandomFiltered(filter);

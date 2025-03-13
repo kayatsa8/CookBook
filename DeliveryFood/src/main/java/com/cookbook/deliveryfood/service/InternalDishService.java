@@ -31,7 +31,7 @@ public class InternalDishService {
     }
 
     public List<Integer> checkDishList(List<Integer> ids){
-        logger.info("InternalDishService::checkDishList: checking existence of dishes by id");
+        logger.info("checking existence of dishes by id");
 
         List<Integer> badIds = new ArrayList<>();
 
@@ -45,19 +45,19 @@ public class InternalDishService {
     }
 
     public Set<DishType> getTypes(List<Integer> ids) throws DishNotFoundException{
-        logger.info("InternalDishService::getTypes: collecting dishes types");
+        logger.info("collecting dishes types");
 
         Set<DishType> types = new HashSet<>();
         DishType type;
 
         if(ids == null){
-            logger.warn("InternalDishService::getTypes: the ids list is null");
+            logger.warn("the ids list is null");
             return types;
         }
 
         for(int id : ids){
             if(!repo.existsById(id)){
-                logger.warn("InternalDishService::getTypes: a dish with id {} was not found", id);
+                logger.warn("a dish with id {} was not found", id);
 
                 throw new DishNotFoundException();
             }
@@ -66,13 +66,13 @@ public class InternalDishService {
             types.add(type);
         }
 
-        logger.info("InternalDishService::getTypes: returning types");
+        logger.info("returning types");
 
         return types;
     }
 
     public int getRatingSum(List<Integer> ids) throws DishNotFoundException{
-        logger.info("InternalDishService::getRatingSum: summing ratings");
+        logger.info("summing ratings");
 
         int sum = 0;
         int rating;
@@ -83,7 +83,7 @@ public class InternalDishService {
 
         for(int id : ids){
             if(!repo.existsById(id)){
-                logger.warn("InternalDishService::getRatingSum: a dish with id {} was not found", id);
+                logger.warn("a dish with id {} was not found", id);
 
                 throw new DishNotFoundException();
             }
@@ -92,20 +92,20 @@ public class InternalDishService {
             sum += rating;
         }
 
-        logger.info("InternalDishService::getRatingSum: returning the sum of ratings");
+        logger.info("returning the sum of ratings");
 
         return sum;
     }
 
     public List<String> getDishNames(List<Integer> ids) throws DishNotFoundException{
-        logger.info("InternalDishService::getDishNames: fetching dishes names");
+        logger.info("fetching dishes names");
 
         List<String> names = new ArrayList<>(ids.size());
         String name;
 
         for(int id : ids){
             if(!repo.existsById(id)){
-                logger.warn("InternalDishService::getDishNames: a dish with id {} was not found", id);
+                logger.warn("a dish with id {} was not found", id);
 
                 throw new DishNotFoundException();
             }
@@ -114,7 +114,7 @@ public class InternalDishService {
             names.add(name);
         }
 
-        logger.info("InternalDishService::getDishNames: returning dish names");
+        logger.info("returning dish names");
 
         return names;
     }
