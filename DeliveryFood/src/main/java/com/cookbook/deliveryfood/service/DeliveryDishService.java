@@ -59,10 +59,14 @@ public class DeliveryDishService {
     }
 
     public List<DeliveryDish> getAllDishes(){
+        logger.info("DeliveryDishService::getAllDishes: fetching all dishes");
+
         List<DeliveryDish> dishes = new ArrayList<>();
         Iterable<DeliveryDish> iterable = repo.findAll();
 
         iterable.forEach(dishes::add);
+
+        logger.info("DeliveryDishService::getAllDishes: returning dishes");
 
         return dishes;
     }
